@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="FinancasFlow.MainPage"
+    Title="Meu Agente Financeiro">
+
+    <Grid
+        Padding="15"
+        RowDefinitions="Auto,*,Auto">
+
+        <!-- CABEÇALHO -->
+
+        <VerticalStackLayout Grid.Row="0">
+
+            <Label
+                Text="🤖 Meu Agente Financeiro"
+                FontSize="24"
+                FontAttributes="Bold"
+                HorizontalOptions="Center" />
+
+            <Label
+                Text="Registre suas entradas e despesas"
+                FontSize="14"
+                HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+
+
+        <!-- ÁREA DAS MENSAGENS -->
+
+        <ScrollView Grid.Row="1">
+
+            <VerticalStackLayout
+                x:Name="ChatContainer"
+                Padding="10"
+                Spacing="15">
+
+                <Frame
+                    BackgroundColor="#E5E5E5"
+                    CornerRadius="15"
+                    Padding="10"
+                    HorizontalOptions="Start">
+
+                    <Label
+                        Text="Olá! 👋&#10;&#10;Me diga algo como:&#10;'Gastei 50 reais no mercado no cartão'&#10;&#10;ou&#10;&#10;'Recebi 2000 reais de salário'"
+                        FontSize="16" />
+
+                </Frame>
+
+            </VerticalStackLayout>
+
+        </ScrollView>
+
+
+        <!-- ÁREA PARA DIGITAR -->
+
+        <Grid
+            Grid.Row="2"
+            ColumnDefinitions="*,Auto,Auto"
+            ColumnSpacing="10">
+
+            <Entry
+                x:Name="txtMensagem"
+                Grid.Column="0"
+                Placeholder="Digite uma mensagem..."
+                FontSize="16" />
+
+            <Button
+                Grid.Column="1"
+                Text="🎤"
+                Clicked="AudioButton_Clicked" />
+
+            <Button
+                Grid.Column="2"
+                Text="Enviar"
+                Clicked="EnviarButton_Clicked" />
+
+        </Grid>
+
+    </Grid>
+
+</ContentPage>
