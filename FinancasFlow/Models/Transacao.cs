@@ -4,19 +4,28 @@
     {
         public int Id { get; set; }
 
-        public string Tipo { get; set; }
         // Entrada ou Despesa
+        public string Tipo { get; set; } = string.Empty;
 
-        public double Valor { get; set; }
+        // Ex: Salário, Alimentação, Transporte
+        public string Categoria { get; set; } = string.Empty;
 
-        public string Categoria { get; set; }
+        // Ex: Mercado, Uber, Restaurante
+        public string Descricao { get; set; } = string.Empty;
 
-        public string Descricao { get; set; }
+        // Valor financeiro
+        public decimal Valor { get; set; }
 
-        public string FormaPagamento { get; set; }
+        // PIX, Dinheiro, Débito, Crédito
+        public string FormaPagamento { get; set; } = string.Empty;
 
+        // Data da transação
         public DateTime Data { get; set; }
 
-        public bool Pago { get; set; }
+        // Caso seja uma compra no cartão
+        public int? CartaoCreditoId { get; set; }
+
+        // Caso seja uma compra no crédito
+        public DateTime? DataFatura { get; set; }
     }
 }
