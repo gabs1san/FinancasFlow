@@ -1,51 +1,57 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <ContentPage
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="FinancasFlow.MainPage"
-    Title="Meu Agente Financeiro">
+ xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+ x:Class="FinancasFlow.MainPage"
+ Title="MyFinance">
 
     <Grid
-        Padding="15"
-        RowDefinitions="Auto,*,Auto">
+    Padding="15"
+    RowDefinitions="Auto,*,Auto">
 
         <!-- CABEÇALHO -->
 
-        <VerticalStackLayout Grid.Row="0">
+        <VerticalStackLayout
+        Grid.Row="0"
+        Spacing="5">
 
             <Label
-                Text="🤖 Meu Agente Financeiro"
-                FontSize="24"
-                FontAttributes="Bold"
-                HorizontalOptions="Center" />
+            Text="🤖 MyFinance"
+            FontSize="28"
+            FontAttributes="Bold"
+            HorizontalOptions="Center" />
 
             <Label
-                Text="Registre suas entradas e despesas"
-                FontSize="14"
-                HorizontalOptions="Center" />
+            Text="Seu agente financeiro pessoal"
+            FontSize="14"
+            HorizontalOptions="Center" />
 
         </VerticalStackLayout>
 
 
-        <!-- ÁREA DAS MENSAGENS -->
+        <!-- CHAT -->
 
-        <ScrollView Grid.Row="1">
+        <ScrollView
+        Grid.Row="1"
+        x:Name="ChatScrollView">
 
             <VerticalStackLayout
-                x:Name="ChatContainer"
-                Padding="10"
-                Spacing="15">
+            x:Name="ChatContainer"
+            Padding="10"
+            Spacing="12">
+
+                <!-- MENSAGEM INICIAL -->
 
                 <Frame
-                    BackgroundColor="#E5E5E5"
-                    CornerRadius="15"
-                    Padding="10"
-                    HorizontalOptions="Start">
+                BackgroundColor="LightGray"
+                CornerRadius="15"
+                Padding="12"
+                HorizontalOptions="Start">
 
                     <Label
-                        Text="Olá! 👋&#10;&#10;Me diga algo como:&#10;'Gastei 50 reais no mercado no cartão'&#10;&#10;ou&#10;&#10;'Recebi 2000 reais de salário'"
-                        FontSize="16" />
+                    Text="Olá! 👋&#10;&#10;Eu sou seu agente financeiro.&#10;&#10;Você pode me dizer coisas como:&#10;&#10;'Recebi 2000 reais de salário'&#10;&#10;'Gastei 50 reais no mercado usando PIX'&#10;&#10;'Quanto sobrou?'"
+                    FontSize="16" />
 
                 </Frame>
 
@@ -54,31 +60,35 @@
         </ScrollView>
 
 
-        <!-- ÁREA PARA DIGITAR -->
+        <!-- ÁREA DE DIGITAÇÃO -->
 
         <Grid
-            Grid.Row="2"
-            ColumnDefinitions="*,Auto,Auto"
-            ColumnSpacing="10">
+        Grid.Row="2"
+        ColumnDefinitions="*,Auto,Auto"
+        ColumnSpacing="8"
+        Padding="0,10,0,0">
 
             <Entry
-                x:Name="txtMensagem"
-                Grid.Column="0"
-                Placeholder="Digite uma mensagem..."
-                FontSize="16" />
+            x:Name="txtMensagem"
+            Grid.Column="0"
+            Placeholder="Digite sua mensagem..."
+            FontSize="16" />
+
 
             <Button
-                Grid.Column="1"
-                Text="🎤"
-                Clicked="AudioButton_Clicked" />
+            Grid.Column="1"
+            Text="🎤"
+            Clicked="AudioButton_Clicked" />
+
 
             <Button
-                Grid.Column="2"
-                Text="Enviar"
-                Clicked="EnviarButton_Clicked" />
+            Grid.Column="2"
+            Text="Enviar"
+            Clicked="EnviarButton_Clicked" />
 
         </Grid>
 
     </Grid>
+
 
 </ContentPage>

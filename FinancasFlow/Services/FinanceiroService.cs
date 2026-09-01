@@ -40,7 +40,7 @@ namespace FinancasFlow.Services
 
         public decimal CalcularFatura(
             List<Transacao> transacoes,
-            CartaoCredito cartao)
+            CartaoDeCredito cartao)
         {
             return transacoes
                 .Where(t =>
@@ -52,7 +52,7 @@ namespace FinancasFlow.Services
 
         public decimal CalcularLimiteDisponivel(
             List<Transacao> transacoes,
-            CartaoCredito cartao)
+            CartaoDeCredito cartao)
         {
             decimal totalUtilizado =
                 CalcularFatura(transacoes, cartao);
@@ -64,7 +64,7 @@ namespace FinancasFlow.Services
 
         public ResumoFinanceiro GerarResumo(
             List<Transacao> transacoes,
-            CartaoCredito? cartao)
+            CartaoDeCredito? cartao)
         {
             decimal entradas =
                 CalcularTotalEntradas(transacoes);

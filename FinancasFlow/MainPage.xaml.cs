@@ -1,29 +1,74 @@
-﻿using FinancasFlow.Models;
+﻿using FinancasFlow.Data;
 using FinancasFlow.Services;
 
-namespace FinancasFlow
+
+namespace FinancasFlow  
 {
     public partial class MainPage : ContentPage
     {
-        private AgenteFinanceiroService agente;
+        private readonly MemoriaFinanceira _memoria;
+
+
+    private readonly Orquestrador _agente;
 
 
         public MainPage()
         {
             InitializeComponent();
 
-            agente =
-                new AgenteFinanceiroService();
+
+            // Cria a memória temporária
+
+            _memoria =
+                new MemoriaFinanceira();
+
+
+            // Cria o agente financeiro
+
+            _agente =
+                new Orquestrador(
+                    _memoria);
+
+
+            ConfigurarDadosIniciais();
         }
 
 
-        private void EnviarButton_Clicked(
+        private void ConfigurarDadosIniciais()
+        {
+            /*
+             * Aqui vamos colocar dados de teste.
+             *
+             * Posteriormente esses dados serão
+             * cadastrados pelo próprio usuário.
+             */
+
+
+            _memoria.Cartoes.Add(
+                new Models.CartaoDeCredito
+                {
+                    Id = 1,
+
+                    Nome = "Meu Cartão",
+
+                    Limite = 3000,
+
+                    DiaFechamento = 25,
+
+                    DiaVencimento = 5
+                });
+        }
+
+
+        private async void EnviarButton_Clicked(
             object sender,
             EventArgs e)
         {
             string mensagem =
                 txtMensagem.Text;
 
+
+            // Verifica se está vazio
 
             if (string.IsNullOrWhiteSpace(mensagem))
             {
@@ -36,93 +81,115 @@ namespace FinancasFlow
             AdicionarMensagemUsuario(mensagem);
 
 
-            // Processa com o agente
-
-            Transacao transacao =
-                agente.ProcessarMensagem(mensagem);
-
-
-            // Mostra resultado
-
-            MostrarResultado(transacao);
-
-
-            // Limpa campo
+            // Limpa o campo
 
             txtMensagem.Text = "";
-        }
 
 
-        private void MostrarResultado(
-            Transacao transacao)
-        {
-            string mensagem =
-                $"Tipo: {transacao.Tipo}\n" +
-                $"Valor: R$ {transacao.Valor:F2}\n" +
-                $"Categoria: {transacao.Categoria}\n" +
-                $"Pagamento: {transacao.FormaPagamento}";
+            // Processa a mensagem
+
+            string resposta =
+                _agente.ProcessarMensagem(
+                    mensagem);
 
 
-            AdicionarMensagemBot(mensagem);
+            // Mostra resposta
+
+            AdicionarMensagemBot(resposta);
+
+
+            // Desce automaticamente o chat
+
+           
         }
 
 
         private void AdicionarMensagemUsuario(
             string mensagem)
         {
-            Frame frame = new Frame
-            {
-                BackgroundColor = Colors.LightGreen,
-                CornerRadius = 15,
-                Padding = 10,
-                HorizontalOptions =
-                    LayoutOptions.End
-            };
+            Frame mensagemFrame =
+                new Frame
+                {
+                    BackgroundColor =
+                        Colors.LightGreen,
+
+                    CornerRadius = 15,
+
+                    Padding = 12,
+
+                    HorizontalOptions =
+                        LayoutOptions.End,
+
+                    MaximumWidthRequest = 300
+                };
 
 
-            frame.Content = new Label
-            {
-                Text = mensagem,
-                FontSize = 16
-            };
+            Label mensagemLabel =
+                new Label
+                {
+                    Text = mensagem,
+
+                    FontSize = 16
+                };
 
 
-            ChatContainer.Add(frame);
+            mensagemFrame.Content =
+                mensagemLabel;
+
+
+            ChatContainer.Add(
+                mensagemFrame);
         }
 
 
         private void AdicionarMensagemBot(
             string mensagem)
         {
-            Frame frame = new Frame
-            {
-                BackgroundColor = Colors.LightGray,
-                CornerRadius = 15,
-                Padding = 10,
-                HorizontalOptions =
-                    LayoutOptions.Start
-            };
+            Frame mensagemFrame =
+                new Frame
+                {
+                    BackgroundColor =
+                        Colors.LightGray,
+
+                    CornerRadius = 15,
+
+                    Padding = 12,
+
+                    HorizontalOptions =
+                        LayoutOptions.Start,
+
+                    MaximumWidthRequest = 300
+                };
 
 
-            frame.Content = new Label
-            {
-                Text = mensagem,
-                FontSize = 16
-            };
+            Label mensagemLabel =
+                new Label
+                {
+                    Text = mensagem,
+
+                    FontSize = 16
+                };
 
 
-            ChatContainer.Add(frame);
+            mensagemFrame.Content =
+                mensagemLabel;
+
+
+            ChatContainer.Add(
+                mensagemFrame);
         }
 
 
-        private void AudioButton_Clicked(
+        private async void AudioButton_Clicked(
             object sender,
             EventArgs e)
         {
-            DisplayAlert(
-                "Áudio",
-                "Funcionalidade em desenvolvimento.",
+            await DisplayAlert(
+                "🎤 Áudio",
+                "O reconhecimento de voz será implementado em breve!",
                 "OK");
         }
     }
+
+
 }

@@ -1,6 +1,6 @@
 ﻿using FinancasFlow.Data;
 using FinancasFlow.Models;
-using FinancasFlow.Services;
+
 
 
 namespace FinancasFlow.Services
@@ -9,9 +9,12 @@ namespace FinancasFlow.Services
     {
         private readonly MemoriaFinanceira _memoria;
 
-        private readonly FinanceiroService _financeiroService;
+
+    private readonly FinanceiroService _financeiroService;
 
         private readonly AgenteFinanceiroService _agenteService;
+
+        private readonly InterpretadorFinanceiroService _interpretador;
 
 
         public Orquestrador(
@@ -24,6 +27,9 @@ namespace FinancasFlow.Services
 
             _agenteService =
                 new AgenteFinanceiroService();
+
+            _interpretador =
+                new InterpretadorFinanceiroService();
         }
 
 
@@ -49,21 +55,155 @@ namespace FinancasFlow.Services
 
                 case "REGISTRAR_DESPESA":
 
-                    return
-                        "Vamos registrar sua despesa.";
+                    return RegistrarDespesa(mensagem);
 
 
                 case "REGISTRAR_ENTRADA":
 
-                    return
-                        "Vamos registrar sua entrada.";
+                    return RegistrarEntrada(mensagem);
 
 
                 default:
 
                     return
-                        "Não consegui entender sua mensagem 😕";
+                        "Não consegui entender sua mensagem 😕\n\n" +
+                        "Tente algo como:\n\n" +
+                        "• Gastei 50 reais no mercado usando PIX\n" +
+                        "• Recebi 2000 reais de salário\n" +
+                        "• Quanto sobrou?\n" +
+                        "• Quanto devo no cartão?";
             }
+        }
+
+
+        private string RegistrarDespesa(
+            string mensagem)
+        {
+            decimal valor =
+                _interpretador.ExtrairValor(mensagem);
+
+
+            if (valor <= 0)
+            {
+                return
+                    "⚠️ Não consegui identificar o valor da despesa.\n\n" +
+                    "Exemplo:\n" +
+                    "'Gastei 50 reais no mercado usando PIX'";
+            }
+
+
+            string categoria =
+                _interpretador
+                    .IdentificarCategoria(mensagem);
+
+
+            string pagamento =
+                _interpretador
+                    .IdentificarFormaPagamento(mensagem);
+
+
+            Transacao transacao =
+                new Transacao
+                {
+                    Id =
+                        _memoria.Transacoes.Count + 1,
+
+                    Tipo = "Despesa",
+
+                    Valor = valor,
+
+                    Categoria = categoria,
+
+                    Descricao = mensagem,
+
+                    FormaPagamento = pagamento,
+
+                    Data = DateTime.Now
+                };
+
+
+            // Se for compra no cartão de crédito
+
+            if (pagamento == "Crédito")
+            {
+                if (_memoria.Cartoes.Count > 0)
+                {
+                    CartaoDeCredito cartao =
+                        _memoria.Cartoes.First();
+
+
+                    transacao.CartaoCreditoId =
+                        cartao.Id;
+                }
+            }
+
+
+            // Adiciona a transação
+
+            _memoria.Transacoes.Add(
+                transacao);
+
+
+            return
+                $"✅ Despesa registrada!\n\n" +
+
+                $"💰 Valor: R$ {valor:N2}\n" +
+
+                $"📂 Categoria: {categoria}\n" +
+
+                $"💳 Pagamento: {pagamento}";
+        }
+
+
+        private string RegistrarEntrada(
+            string mensagem)
+        {
+            decimal valor =
+                _interpretador.ExtrairValor(mensagem);
+
+
+            if (valor <= 0)
+            {
+                return
+                    "⚠️ Não consegui identificar o valor da entrada.";
+            }
+
+
+            string categoria =
+                _interpretador
+                    .IdentificarCategoria(mensagem);
+
+
+            Transacao transacao =
+                new Transacao
+                {
+                    Id =
+                        _memoria.Transacoes.Count + 1,
+
+                    Tipo = "Entrada",
+
+                    Valor = valor,
+
+                    Categoria = categoria,
+
+                    Descricao = mensagem,
+
+                    FormaPagamento = "Não informado",
+
+                    Data = DateTime.Now
+                };
+
+
+            _memoria.Transacoes.Add(
+                transacao);
+
+
+            return
+                $"✅ Entrada registrada!\n\n" +
+
+                $"💰 Valor: R$ {valor:N2}\n" +
+
+                $"📂 Categoria: {categoria}";
         }
 
 
@@ -86,11 +226,11 @@ namespace FinancasFlow.Services
             if (_memoria.Cartoes.Count == 0)
             {
                 return
-                    "Você ainda não cadastrou um cartão de crédito.";
+                    "💳 Você ainda não cadastrou um cartão de crédito.";
             }
 
 
-            CartaoCredito cartao =
+            CartaoDeCredito cartao =
                 _memoria.Cartoes.First();
 
 
@@ -102,8 +242,10 @@ namespace FinancasFlow.Services
 
 
             return
-                $"💳 Próxima fatura:\n\n" +
-                $"R$ {fatura:N2}";
+                $"💳 Próxima fatura\n\n" +
+                $"Cartão: {cartao.Nome}\n\n" +
+                $"Total: R$ {fatura:N2}";
         }
     }
+
 }

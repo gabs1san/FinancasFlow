@@ -6,7 +6,7 @@ namespace FinancasFlow.Services
     {
         public DateTime CalcularVencimentoFatura(
             DateTime dataCompra,
-            CartaoCredito cartao)
+            CartaoDeCredito cartao)
         {
             int mes = dataCompra.Month;
             int ano = dataCompra.Year;

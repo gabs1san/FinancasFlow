@@ -1,6 +1,6 @@
 ﻿namespace FinancasFlow.Models
 {
-    public class CartaoCredito
+    public class CartaoDeCredito
     {
         public int Id { get; set; }
 
