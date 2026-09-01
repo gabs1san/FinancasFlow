@@ -160,6 +160,50 @@ namespace FinancasFlow.Services
 
 
             return "Não informado";
+
+        }
+        private void ProcessarMensagem(string mensagem)
+        {
+            mensagem = mensagem.ToLower();
+
+
+            if (
+                mensagem.Contains("quanto sobrou") ||
+                mensagem.Contains("quanto tenho") ||
+                mensagem.Contains("meu saldo"))
+            {
+                ConsultarSaldo();
+            }
+
+
+            else if (
+                mensagem.Contains("fatura") ||
+                mensagem.Contains("cartão") ||
+                mensagem.Contains("cartao"))
+            {
+                ConsultarFatura();
+            }
+
+
+            else if (mensagem.Contains("gastei"))
+            {
+                ProcessarDespesa(mensagem);
+            }
+
+
+            else if (
+                mensagem.Contains("recebi") ||
+                mensagem.Contains("ganhei"))
+            {
+                ProcessarEntrada(mensagem);
+            }
+
+
+            else
+            {
+                AdicionarMensagemBot(
+                    "Não consegui entender sua mensagem 😕");
+            }
         }
     }
 }
