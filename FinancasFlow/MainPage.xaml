@@ -1,94 +1,329 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <ContentPage
- xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
- xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
- x:Class="FinancasFlow.MainPage"
- Title="MyFinance">
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="FinancasFlow.MainPage"
+    Title="FinancasFlow"
+    BackgroundColor="#0B1F33">
 
     <Grid
-    Padding="15"
-    RowDefinitions="Auto,*,Auto">
+        RowDefinitions="Auto,*,Auto,Auto"
+        Padding="0"
+        RowSpacing="0">
 
+        <!-- ========================= -->
         <!-- CABEÇALHO -->
+        <!-- ========================= -->
 
-        <VerticalStackLayout
-        Grid.Row="0"
-        Spacing="5">
+        <Grid
+            Grid.Row="0"
+            BackgroundColor="#102B46"
+            Padding="15,12"
+            ColumnDefinitions="Auto,*,Auto">
+
+            <!-- VOLTAR -->
 
             <Label
-            Text="🤖 MyFinance"
-            FontSize="28"
-            FontAttributes="Bold"
-            HorizontalOptions="Center" />
-
-            <Label
-            Text="Seu agente financeiro pessoal"
-            FontSize="14"
-            HorizontalOptions="Center" />
-
-        </VerticalStackLayout>
+                Grid.Column="0"
+                Text="‹"
+                FontSize="32"
+                TextColor="White"
+                VerticalOptions="Center" />
 
 
-        <!-- CHAT -->
-
-        <ScrollView
-        Grid.Row="1"
-        x:Name="ChatScrollView">
+            <!-- TÍTULO -->
 
             <VerticalStackLayout
-            x:Name="ChatContainer"
-            Padding="10"
-            Spacing="12">
+                Grid.Column="1"
+                Spacing="0"
+                HorizontalOptions="Center">
 
-                <!-- MENSAGEM INICIAL -->
+                <Label
+                    Text="Finanças Flow"
+                    FontSize="18"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    HorizontalOptions="Center" />
 
-                <Frame
-                BackgroundColor="LightGray"
-                CornerRadius="15"
-                Padding="12"
-                HorizontalOptions="Start">
-
-                    <Label
-                    Text="Olá! 👋&#10;&#10;Eu sou seu agente financeiro.&#10;&#10;Você pode me dizer coisas como:&#10;&#10;'Recebi 2000 reais de salário'&#10;&#10;'Gastei 50 reais no mercado usando PIX'&#10;&#10;'Quanto sobrou?'"
-                    FontSize="16" />
-
-                </Frame>
+                <Label
+                    Text="Agente financeiro"
+                    FontSize="11"
+                    TextColor="#9DB6CC"
+                    HorizontalOptions="Center" />
 
             </VerticalStackLayout>
 
-        </ScrollView>
+
+            <!-- NOVA CONVERSA -->
+
+            <Label
+                Grid.Column="2"
+                Text="✎"
+                FontSize="22"
+                TextColor="White"
+                VerticalOptions="Center" />
+
+        </Grid>
 
 
-        <!-- ÁREA DE DIGITAÇÃO -->
+        <!-- ========================= -->
+        <!-- CHAT -->
+        <!-- ========================= -->
 
         <Grid
-        Grid.Row="2"
-        ColumnDefinitions="*,Auto,Auto"
-        ColumnSpacing="8"
-        Padding="0,10,0,0">
+            Grid.Row="1"
+            BackgroundColor="#0B1F33">
 
-            <Entry
-            x:Name="txtMensagem"
-            Grid.Column="0"
-            Placeholder="Digite sua mensagem..."
-            FontSize="16" />
+            <ScrollView
+                x:Name="ChatScrollView"
+                VerticalOptions="Fill">
 
+                <VerticalStackLayout
+                    x:Name="ChatContainer"
+                    Padding="15,15,15,20"
+                    Spacing="15">
+
+                    <!-- TÍTULO DA CONVERSA -->
+
+                    <Label
+                        Text="Conversa"
+                        FontSize="24"
+                        FontAttributes="Bold"
+                        TextColor="White" />
+
+
+                    <!-- AVISO DO RELATÓRIO -->
+
+                    <Frame
+                        BackgroundColor="#1C4164"
+                        CornerRadius="8"
+                        Padding="12,8"
+                        HasShadow="False">
+
+                        <Label
+                            Text="Relatório Mensal em 7 dias 🗓️"
+                            FontSize="13"
+                            TextColor="White"
+                            HorizontalOptions="Center" />
+
+                    </Frame>
+
+
+                    <!-- MENSAGEM INICIAL DO BOT -->
+
+                    <Frame
+                        BackgroundColor="#173750"
+                        CornerRadius="12"
+                        Padding="12"
+                        HorizontalOptions="Start"
+                        MaximumWidthRequest="320"
+                        HasShadow="False">
+
+                        <VerticalStackLayout
+                            Spacing="5">
+
+                            <HorizontalStackLayout
+                                Spacing="6">
+
+                                <Label
+                                    Text="🤖"
+                                    FontSize="16" />
+
+                                <Label
+                                    Text="FinFlow Assistant"
+                                    FontSize="13"
+                                    FontAttributes="Bold"
+                                    TextColor="#72D6FF" />
+
+                            </HorizontalStackLayout>
+
+                            <Label
+                                Text="Olá! 👋&#10;&#10;Sou seu agente financeiro pessoal. Pode me contar seus gastos, entradas ou perguntar sobre seu saldo."
+                                FontSize="15"
+                                TextColor="#E8F2F8" />
+
+                        </VerticalStackLayout>
+
+                    </Frame>
+
+                </VerticalStackLayout>
+
+            </ScrollView>
+
+        </Grid>
+
+
+        <!-- ========================= -->
+        <!-- ÁREA DE DIGITAÇÃO -->
+        <!-- ========================= -->
+
+        <Grid
+            Grid.Row="2"
+            BackgroundColor="#102B46"
+            Padding="10,8"
+            ColumnDefinitions="Auto,*,Auto,Auto"
+            ColumnSpacing="8">
+
+            <!-- ÍCONE -->
+
+            <Label
+                Grid.Column="0"
+                Text="📷"
+                FontSize="20"
+                VerticalOptions="Center"
+                TextColor="#AFC6D8" />
+
+
+            <!-- CAMPO -->
+
+            <Border
+                Grid.Column="1"
+                BackgroundColor="#1B3B59"
+                Stroke="#2A5577"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 22"
+                Padding="12,0"
+                HeightRequest="45">
+
+                <Entry
+                    x:Name="txtMensagem"
+                    Placeholder="Digite uma mensagem..."
+                    PlaceholderColor="#8FA8BC"
+                    TextColor="White"
+                    FontSize="15"
+                    BackgroundColor="Transparent"
+                    VerticalOptions="Center" />
+
+            </Border>
+
+
+            <!-- MICROFONE -->
+
+            <Label
+                Grid.Column="2"
+                Text="🎤"
+                FontSize="20"
+                VerticalOptions="Center"
+                TextColor="#AFC6D8" />
+
+
+            <!-- ENVIAR -->
 
             <Button
-            Grid.Column="1"
-            Text="🎤"
-            Clicked="AudioButton_Clicked" />
+                Grid.Column="3"
+                Text="➤"
+                FontSize="20"
+                TextColor="White"
+                BackgroundColor="#2997D8"
+                CornerRadius="23"
+                WidthRequest="45"
+                HeightRequest="45"
+                Clicked="EnviarButton_Clicked" />
+
+        </Grid>
 
 
-            <Button
-            Grid.Column="2"
-            Text="Enviar"
-            Clicked="EnviarButton_Clicked" />
+        <!-- ========================= -->
+        <!-- NAVEGAÇÃO -->
+        <!-- ========================= -->
+
+        <Grid
+            Grid.Row="3"
+            BackgroundColor="#102B46"
+            Padding="10,8,10,12"
+            ColumnDefinitions="*,*,*,*">
+
+            <!-- INÍCIO -->
+
+            <VerticalStackLayout
+                Grid.Column="0"
+                Spacing="2"
+                HorizontalOptions="Center">
+
+                <Label
+                    Text="⌂"
+                    FontSize="25"
+                    TextColor="#4DB8FF"
+                    HorizontalOptions="Center" />
+
+                <Label
+                    Text="Início"
+                    FontSize="11"
+                    FontAttributes="Bold"
+                    TextColor="#4DB8FF"
+                    HorizontalOptions="Center" />
+
+            </VerticalStackLayout>
+
+
+            <!-- RESUMO -->
+
+            <VerticalStackLayout
+                Grid.Column="1"
+                Spacing="2"
+                HorizontalOptions="Center">
+
+                <Label
+                    Text="▥"
+                    FontSize="24"
+                    TextColor="#8FA8BC"
+                    HorizontalOptions="Center" />
+
+                <Label
+                    Text="Resumo"
+                    FontSize="11"
+                    TextColor="#8FA8BC"
+                    HorizontalOptions="Center" />
+
+            </VerticalStackLayout>
+
+
+            <!-- ADICIONAR -->
+
+            <VerticalStackLayout
+                Grid.Column="2"
+                Spacing="2"
+                HorizontalOptions="Center">
+
+                <Label
+                    Text="+"
+                    FontSize="27"
+                    TextColor="#8FA8BC"
+                    HorizontalOptions="Center" />
+
+                <Label
+                    Text="Adicionar"
+                    FontSize="11"
+                    TextColor="#8FA8BC"
+                    HorizontalOptions="Center" />
+
+            </VerticalStackLayout>
+
+
+            <!-- PERFIL -->
+
+            <VerticalStackLayout
+                Grid.Column="3"
+                Spacing="2"
+                HorizontalOptions="Center">
+
+                <Label
+                    Text="♙"
+                    FontSize="25"
+                    TextColor="#8FA8BC"
+                    HorizontalOptions="Center" />
+
+                <Label
+                    Text="Perfil"
+                    FontSize="11"
+                    TextColor="#8FA8BC"
+                    HorizontalOptions="Center" />
+
+            </VerticalStackLayout>
 
         </Grid>
 
     </Grid>
-
 
 </ContentPage>
