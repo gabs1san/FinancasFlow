@@ -9,6 +9,32 @@
 
     <Grid>
 
+        <VerticalStackLayout
+    Grid.Column="1"
+    Spacing="2"
+    HorizontalOptions="Center">
+
+            <VerticalStackLayout.GestureRecognizers>
+
+                <TapGestureRecognizer
+            Tapped="Resumo_Tapped" />
+
+            </VerticalStackLayout.GestureRecognizers>
+
+            <Label
+        Text="▥"
+        FontSize="24"
+        TextColor="#8FA8BC"
+        HorizontalOptions="Center" />
+
+            <Label
+        Text="Resumo"
+        FontSize="11"
+        TextColor="#8FA8BC"
+        HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+
     </Grid>
 
 </ContentPage>

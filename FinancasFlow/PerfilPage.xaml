@@ -9,6 +9,32 @@
 
     <Grid>
 
+        <VerticalStackLayout
+    Grid.Column="3"
+    Spacing="2"
+    HorizontalOptions="Center">
+
+            <VerticalStackLayout.GestureRecognizers>
+
+                <TapGestureRecognizer
+            Tapped="Perfil_Tapped" />
+
+            </VerticalStackLayout.GestureRecognizers>
+
+            <Label
+        Text="♙"
+        FontSize="25"
+        TextColor="#8FA8BC"
+        HorizontalOptions="Center" />
+
+            <Label
+        Text="Perfil"
+        FontSize="11"
+        TextColor="#8FA8BC"
+        HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+
     </Grid>
 
 </ContentPage>

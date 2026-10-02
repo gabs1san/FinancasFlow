@@ -22,7 +22,7 @@
             Padding="15,12"
             ColumnDefinitions="Auto,*,Auto">
 
-            <!-- VOLTAR -->
+            <!-- BOTÃO VOLTAR -->
 
             <Label
                 Grid.Column="0"
@@ -83,8 +83,6 @@
                     x:Name="ChatContainer"
                     Padding="15,15,15,20"
                     Spacing="15">
-
-                    <!-- TÍTULO DA CONVERSA -->
 
                     <Label
                         Text="Conversa"
@@ -234,12 +232,22 @@
             Padding="10,8,10,12"
             ColumnDefinitions="*,*,*,*">
 
+
+            <!-- ========================= -->
             <!-- INÍCIO -->
+            <!-- ========================= -->
 
             <VerticalStackLayout
                 Grid.Column="0"
                 Spacing="2"
                 HorizontalOptions="Center">
+
+                <VerticalStackLayout.GestureRecognizers>
+
+                    <TapGestureRecognizer
+                        Tapped="Inicio_Tapped" />
+
+                </VerticalStackLayout.GestureRecognizers>
 
                 <Label
                     Text="⌂"
@@ -257,12 +265,21 @@
             </VerticalStackLayout>
 
 
+            <!-- ========================= -->
             <!-- RESUMO -->
+            <!-- ========================= -->
 
             <VerticalStackLayout
                 Grid.Column="1"
                 Spacing="2"
                 HorizontalOptions="Center">
+
+                <VerticalStackLayout.GestureRecognizers>
+
+                    <TapGestureRecognizer
+                        Tapped="Resumo_Tapped" />
+
+                </VerticalStackLayout.GestureRecognizers>
 
                 <Label
                     Text="▥"
@@ -279,12 +296,21 @@
             </VerticalStackLayout>
 
 
+            <!-- ========================= -->
             <!-- ADICIONAR -->
+            <!-- ========================= -->
 
             <VerticalStackLayout
                 Grid.Column="2"
                 Spacing="2"
                 HorizontalOptions="Center">
+
+                <VerticalStackLayout.GestureRecognizers>
+
+                    <TapGestureRecognizer
+                        Tapped="Adicionar_Tapped" />
+
+                </VerticalStackLayout.GestureRecognizers>
 
                 <Label
                     Text="+"
@@ -301,12 +327,21 @@
             </VerticalStackLayout>
 
 
+            <!-- ========================= -->
             <!-- PERFIL -->
+            <!-- ========================= -->
 
             <VerticalStackLayout
                 Grid.Column="3"
                 Spacing="2"
                 HorizontalOptions="Center">
+
+                <VerticalStackLayout.GestureRecognizers>
+
+                    <TapGestureRecognizer
+                        Tapped="Perfil_Tapped" />
+
+                </VerticalStackLayout.GestureRecognizers>
 
                 <Label
                     Text="♙"

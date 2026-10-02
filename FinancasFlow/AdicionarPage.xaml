@@ -9,6 +9,32 @@
 
     <Grid>
 
+        <VerticalStackLayout
+    Grid.Column="2"
+    Spacing="2"
+    HorizontalOptions="Center">
+
+            <VerticalStackLayout.GestureRecognizers>
+
+                <TapGestureRecognizer
+            Tapped="Adicionar_Tapped" />
+
+            </VerticalStackLayout.GestureRecognizers>
+
+            <Label
+        Text="+"
+        FontSize="27"
+        TextColor="#8FA8BC"
+        HorizontalOptions="Center" />
+
+            <Label
+        Text="Adicionar"
+        FontSize="11"
+        TextColor="#8FA8BC"
+        HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+
     </Grid>
 
 </ContentPage>
