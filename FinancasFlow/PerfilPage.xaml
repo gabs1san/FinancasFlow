@@ -3,37 +3,39 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:FinancasFlow.Components"
     x:Class="FinancasFlow.PerfilPage"
     Title="Perfil"
-    BackgroundColor="#0B1F33">
+    BackgroundColor="#0B1F33"
+    Shell.NavBarIsVisible="False">
 
-    <Grid>
+    <Grid
+        RowDefinitions="*,Auto">
 
-        <VerticalStackLayout
-    Grid.Column="3"
-    Spacing="2"
-    HorizontalOptions="Center">
+        <ScrollView
+            Grid.Row="0">
 
-            <VerticalStackLayout.GestureRecognizers>
+            <VerticalStackLayout
+                Padding="20"
+                Spacing="15">
 
-                <TapGestureRecognizer
-            Tapped="Perfil_Tapped" />
+                <Label
+                    Text="Perfil"
+                    FontSize="28"
+                    FontAttributes="Bold"
+                    TextColor="White" />
 
-            </VerticalStackLayout.GestureRecognizers>
+                <Label
+                    Text="Aqui ficarão as informações do seu perfil."
+                    FontSize="16"
+                    TextColor="#8FA8BC" />
 
-            <Label
-        Text="♙"
-        FontSize="25"
-        TextColor="#8FA8BC"
-        HorizontalOptions="Center" />
+            </VerticalStackLayout>
 
-            <Label
-        Text="Perfil"
-        FontSize="11"
-        TextColor="#8FA8BC"
-        HorizontalOptions="Center" />
+        </ScrollView>
 
-        </VerticalStackLayout>
+        <components:MenuNavegacao
+            Grid.Row="1" />
 
     </Grid>
 

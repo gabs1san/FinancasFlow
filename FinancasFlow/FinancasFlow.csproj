@@ -74,6 +74,9 @@
 	  <Compile Update="AdicionarPage.xaml.cs">
 	    <DependentUpon>AdicionarPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Components\MenuNavegacao.xaml.cs">
+	    <DependentUpon>MenuNavegacao.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="PerfilPage.xaml.cs">
 	    <DependentUpon>PerfilPage.xaml</DependentUpon>
 	  </Compile>
@@ -83,6 +86,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Components\MenuNavegacao.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="ResumoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -92,10 +98,6 @@
 	  <MauiXaml Update="PerfilPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Components\" />
 	</ItemGroup>
 
 </Project>

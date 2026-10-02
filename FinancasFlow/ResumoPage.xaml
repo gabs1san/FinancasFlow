@@ -3,37 +3,39 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:FinancasFlow.Components"
     x:Class="FinancasFlow.ResumoPage"
     Title="Resumo"
-    BackgroundColor="#0B1F33">
+    BackgroundColor="#0B1F33"
+    Shell.NavBarIsVisible="False">
 
-    <Grid>
+    <Grid
+        RowDefinitions="*,Auto">
 
-        <VerticalStackLayout
-    Grid.Column="1"
-    Spacing="2"
-    HorizontalOptions="Center">
+        <ScrollView
+            Grid.Row="0">
 
-            <VerticalStackLayout.GestureRecognizers>
+            <VerticalStackLayout
+                Padding="20"
+                Spacing="15">
 
-                <TapGestureRecognizer
-            Tapped="Resumo_Tapped" />
+                <Label
+                    Text="Resumo"
+                    FontSize="28"
+                    FontAttributes="Bold"
+                    TextColor="White" />
 
-            </VerticalStackLayout.GestureRecognizers>
+                <Label
+                    Text="Aqui ficará seu resumo financeiro."
+                    FontSize="16"
+                    TextColor="#8FA8BC" />
 
-            <Label
-        Text="▥"
-        FontSize="24"
-        TextColor="#8FA8BC"
-        HorizontalOptions="Center" />
+            </VerticalStackLayout>
 
-            <Label
-        Text="Resumo"
-        FontSize="11"
-        TextColor="#8FA8BC"
-        HorizontalOptions="Center" />
+        </ScrollView>
 
-        </VerticalStackLayout>
+        <components:MenuNavegacao
+            Grid.Row="1" />
 
     </Grid>
 

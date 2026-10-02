@@ -3,6 +3,7 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:FinancasFlow.Components"
     x:Class="FinancasFlow.MainPage"
     Title="FinancasFlow"
     BackgroundColor="#0B1F33">
@@ -12,9 +13,7 @@
         Padding="0"
         RowSpacing="0">
 
-        <!-- ========================= -->
         <!-- CABEÇALHO -->
-        <!-- ========================= -->
 
         <Grid
             Grid.Row="0"
@@ -22,17 +21,12 @@
             Padding="15,12"
             ColumnDefinitions="Auto,*,Auto">
 
-            <!-- BOTÃO VOLTAR -->
-
             <Label
                 Grid.Column="0"
                 Text="‹"
                 FontSize="32"
                 TextColor="White"
                 VerticalOptions="Center" />
-
-
-            <!-- TÍTULO -->
 
             <VerticalStackLayout
                 Grid.Column="1"
@@ -54,9 +48,6 @@
 
             </VerticalStackLayout>
 
-
-            <!-- NOVA CONVERSA -->
-
             <Label
                 Grid.Column="2"
                 Text="✎"
@@ -67,9 +58,7 @@
         </Grid>
 
 
-        <!-- ========================= -->
         <!-- CHAT -->
-        <!-- ========================= -->
 
         <Grid
             Grid.Row="1"
@@ -90,9 +79,6 @@
                         FontAttributes="Bold"
                         TextColor="White" />
 
-
-                    <!-- AVISO DO RELATÓRIO -->
-
                     <Frame
                         BackgroundColor="#1C4164"
                         CornerRadius="8"
@@ -106,9 +92,6 @@
                             HorizontalOptions="Center" />
 
                     </Frame>
-
-
-                    <!-- MENSAGEM INICIAL DO BOT -->
 
                     <Frame
                         BackgroundColor="#173750"
@@ -152,9 +135,7 @@
         </Grid>
 
 
-        <!-- ========================= -->
-        <!-- ÁREA DE DIGITAÇÃO -->
-        <!-- ========================= -->
+        <!-- DIGITAÇÃO -->
 
         <Grid
             Grid.Row="2"
@@ -163,17 +144,12 @@
             ColumnDefinitions="Auto,*,Auto,Auto"
             ColumnSpacing="8">
 
-            <!-- ÍCONE -->
-
             <Label
                 Grid.Column="0"
                 Text="📷"
                 FontSize="20"
                 VerticalOptions="Center"
                 TextColor="#AFC6D8" />
-
-
-            <!-- CAMPO -->
 
             <Border
                 Grid.Column="1"
@@ -195,18 +171,12 @@
 
             </Border>
 
-
-            <!-- MICROFONE -->
-
             <Label
                 Grid.Column="2"
                 Text="🎤"
                 FontSize="20"
                 VerticalOptions="Center"
                 TextColor="#AFC6D8" />
-
-
-            <!-- ENVIAR -->
 
             <Button
                 Grid.Column="3"
@@ -222,142 +192,10 @@
         </Grid>
 
 
-        <!-- ========================= -->
-        <!-- NAVEGAÇÃO -->
-        <!-- ========================= -->
+        <!-- MENU -->
 
-        <Grid
-            Grid.Row="3"
-            BackgroundColor="#102B46"
-            Padding="10,8,10,12"
-            ColumnDefinitions="*,*,*,*">
-
-
-            <!-- ========================= -->
-            <!-- INÍCIO -->
-            <!-- ========================= -->
-
-            <VerticalStackLayout
-                Grid.Column="0"
-                Spacing="2"
-                HorizontalOptions="Center">
-
-                <VerticalStackLayout.GestureRecognizers>
-
-                    <TapGestureRecognizer
-                        Tapped="Inicio_Tapped" />
-
-                </VerticalStackLayout.GestureRecognizers>
-
-                <Label
-                    Text="⌂"
-                    FontSize="25"
-                    TextColor="#4DB8FF"
-                    HorizontalOptions="Center" />
-
-                <Label
-                    Text="Início"
-                    FontSize="11"
-                    FontAttributes="Bold"
-                    TextColor="#4DB8FF"
-                    HorizontalOptions="Center" />
-
-            </VerticalStackLayout>
-
-
-            <!-- ========================= -->
-            <!-- RESUMO -->
-            <!-- ========================= -->
-
-            <VerticalStackLayout
-                Grid.Column="1"
-                Spacing="2"
-                HorizontalOptions="Center">
-
-                <VerticalStackLayout.GestureRecognizers>
-
-                    <TapGestureRecognizer
-                        Tapped="Resumo_Tapped" />
-
-                </VerticalStackLayout.GestureRecognizers>
-
-                <Label
-                    Text="▥"
-                    FontSize="24"
-                    TextColor="#8FA8BC"
-                    HorizontalOptions="Center" />
-
-                <Label
-                    Text="Resumo"
-                    FontSize="11"
-                    TextColor="#8FA8BC"
-                    HorizontalOptions="Center" />
-
-            </VerticalStackLayout>
-
-
-            <!-- ========================= -->
-            <!-- ADICIONAR -->
-            <!-- ========================= -->
-
-            <VerticalStackLayout
-                Grid.Column="2"
-                Spacing="2"
-                HorizontalOptions="Center">
-
-                <VerticalStackLayout.GestureRecognizers>
-
-                    <TapGestureRecognizer
-                        Tapped="Adicionar_Tapped" />
-
-                </VerticalStackLayout.GestureRecognizers>
-
-                <Label
-                    Text="+"
-                    FontSize="27"
-                    TextColor="#8FA8BC"
-                    HorizontalOptions="Center" />
-
-                <Label
-                    Text="Adicionar"
-                    FontSize="11"
-                    TextColor="#8FA8BC"
-                    HorizontalOptions="Center" />
-
-            </VerticalStackLayout>
-
-
-            <!-- ========================= -->
-            <!-- PERFIL -->
-            <!-- ========================= -->
-
-            <VerticalStackLayout
-                Grid.Column="3"
-                Spacing="2"
-                HorizontalOptions="Center">
-
-                <VerticalStackLayout.GestureRecognizers>
-
-                    <TapGestureRecognizer
-                        Tapped="Perfil_Tapped" />
-
-                </VerticalStackLayout.GestureRecognizers>
-
-                <Label
-                    Text="♙"
-                    FontSize="25"
-                    TextColor="#8FA8BC"
-                    HorizontalOptions="Center" />
-
-                <Label
-                    Text="Perfil"
-                    FontSize="11"
-                    TextColor="#8FA8BC"
-                    HorizontalOptions="Center" />
-
-            </VerticalStackLayout>
-
-        </Grid>
+        <components:MenuNavegacao
+            Grid.Row="3" />
 
     </Grid>
 
