@@ -70,4 +70,28 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="AdicionarPage.xaml.cs">
+	    <DependentUpon>AdicionarPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="PerfilPage.xaml.cs">
+	    <DependentUpon>PerfilPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ResumoPage.xaml.cs">
+	    <DependentUpon>ResumoPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="ResumoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AdicionarPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="PerfilPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>
