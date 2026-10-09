@@ -6,7 +6,7 @@
     xmlns:components="clr-namespace:FinancasFlow.Components"
     x:Class="FinancasFlow.MainPage"
     Title="FinancasFlow"
-    BackgroundColor="#0B1F33">
+    BackgroundColor="#080808">
 
     <Grid
         RowDefinitions="Auto,*,Auto,Auto"
@@ -14,10 +14,9 @@
         RowSpacing="0">
 
         <!-- CABEÇALHO -->
-
         <Grid
             Grid.Row="0"
-            BackgroundColor="#102B46"
+            BackgroundColor="#151515"
             Padding="15,12"
             ColumnDefinitions="Auto,*,Auto">
 
@@ -25,7 +24,7 @@
                 Grid.Column="0"
                 Text="‹"
                 FontSize="32"
-                TextColor="White"
+                TextColor="#C9A34A"
                 VerticalOptions="Center" />
 
             <VerticalStackLayout
@@ -37,13 +36,13 @@
                     Text="Finanças Flow"
                     FontSize="18"
                     FontAttributes="Bold"
-                    TextColor="White"
+                    TextColor="#F5F5F5"
                     HorizontalOptions="Center" />
 
                 <Label
                     Text="Agente financeiro"
                     FontSize="11"
-                    TextColor="#9DB6CC"
+                    TextColor="#B7A77F"
                     HorizontalOptions="Center" />
 
             </VerticalStackLayout>
@@ -52,94 +51,158 @@
                 Grid.Column="2"
                 Text="✎"
                 FontSize="22"
-                TextColor="White"
+                TextColor="#C9A34A"
                 VerticalOptions="Center" />
 
         </Grid>
 
-
-        <!-- CHAT -->
-
+        <!-- ÁREA DO CHAT -->
         <Grid
             Grid.Row="1"
-            BackgroundColor="#0B1F33">
+            Padding="15,15,15,0"
+            RowDefinitions="Auto,Auto,*"
+            RowSpacing="12"
+            BackgroundColor="#080808">
 
-            <ScrollView
-                x:Name="ChatScrollView"
+            <Label
+                Grid.Row="0"
+                Text="Conversa"
+                FontSize="24"
+                FontAttributes="Bold"
+                TextColor="#F5F5F5" />
+
+            <Frame
+                Grid.Row="1"
+                BackgroundColor="#1A1A1A"
+                BorderColor="#30291B"
+                CornerRadius="8"
+                Padding="12,8"
+                HasShadow="False">
+
+                <Label
+                    Text="Relatório Mensal em 7 dias 🗓️"
+                    FontSize="13"
+                    TextColor="#D8B866"
+                    HorizontalOptions="Center" />
+
+            </Frame>
+
+            <!-- MENSAGENS -->
+            <CollectionView
+                x:Name="ListaMensagens"
+                Grid.Row="2"
+                ItemsSource="{Binding Mensagens}"
+                SelectionMode="None"
                 VerticalOptions="Fill">
 
-                <VerticalStackLayout
-                    x:Name="ChatContainer"
-                    Padding="15,15,15,20"
-                    Spacing="15">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
 
-                    <Label
-                        Text="Conversa"
-                        FontSize="24"
-                        FontAttributes="Bold"
-                        TextColor="White" />
+                        <!-- Ocupa toda a largura para alinhar os balões -->
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            Padding="0,4">
 
-                    <Frame
-                        BackgroundColor="#1C4164"
-                        CornerRadius="8"
-                        Padding="12,8"
-                        HasShadow="False">
+                            <Frame
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Margin="0"
+                                Padding="12,10"
+                                CornerRadius="12"
+                                HasShadow="False"
+                                HorizontalOptions="Start"
+                                MaximumWidthRequest="320"
+                                BackgroundColor="#1A1A1A">
 
-                        <Label
-                            Text="Relatório Mensal em 7 dias 🗓️"
-                            FontSize="13"
-                            TextColor="White"
-                            HorizontalOptions="Center" />
+                                <Frame.Triggers>
+                                    <DataTrigger
+                                        TargetType="Frame"
+                                        Binding="{Binding EhUsuario}"
+                                        Value="True">
 
-                    </Frame>
+                                        <Setter
+                                            Property="HorizontalOptions"
+                                            Value="End" />
 
-                    <Frame
-                        BackgroundColor="#173750"
-                        CornerRadius="12"
-                        Padding="12"
-                        HorizontalOptions="Start"
-                        MaximumWidthRequest="320"
-                        HasShadow="False">
+                                        <Setter
+                                            Property="BackgroundColor"
+                                            Value="#C9A34A" />
 
-                        <VerticalStackLayout
-                            Spacing="5">
+                                        <Setter
+                                            Property="MaximumWidthRequest"
+                                            Value="290" />
 
-                            <HorizontalStackLayout
-                                Spacing="6">
+                                    </DataTrigger>
+                                </Frame.Triggers>
 
-                                <Label
-                                    Text="🤖"
-                                    FontSize="16" />
+                                <VerticalStackLayout Spacing="5">
 
-                                <Label
-                                    Text="FinFlow Assistant"
-                                    FontSize="13"
-                                    FontAttributes="Bold"
-                                    TextColor="#72D6FF" />
+                                    <!-- IDENTIFICAÇÃO DO AGENTE -->
+                                    <HorizontalStackLayout
+                                        Spacing="6">
 
-                            </HorizontalStackLayout>
+                                        <HorizontalStackLayout.Triggers>
+                                            <DataTrigger
+                                                TargetType="HorizontalStackLayout"
+                                                Binding="{Binding EhUsuario}"
+                                                Value="True">
 
-                            <Label
-                                Text="Olá! 👋&#10;&#10;Sou seu agente financeiro pessoal. Pode me contar seus gastos, entradas ou perguntar sobre seu saldo."
-                                FontSize="15"
-                                TextColor="#E8F2F8" />
+                                                <Setter
+                                                    Property="IsVisible"
+                                                    Value="False" />
 
-                        </VerticalStackLayout>
+                                            </DataTrigger>
+                                        </HorizontalStackLayout.Triggers>
 
-                    </Frame>
+                                        <Label
+                                            Text="🤖"
+                                            FontSize="16" />
 
-                </VerticalStackLayout>
+                                        <Label
+                                            Text="FinFlow Assistant"
+                                            FontSize="13"
+                                            FontAttributes="Bold"
+                                            TextColor="#D8B866"
+                                            VerticalOptions="Center" />
 
-            </ScrollView>
+                                    </HorizontalStackLayout>
+
+                                    <!-- TEXTO DA MENSAGEM -->
+                                    <Label
+                                        Text="{Binding Texto}"
+                                        FontSize="15"
+                                        TextColor="#F5F5F5">
+
+                                        <Label.Triggers>
+                                            <DataTrigger
+                                                TargetType="Label"
+                                                Binding="{Binding EhUsuario}"
+                                                Value="True">
+
+                                                <Setter
+                                                    Property="TextColor"
+                                                    Value="#17130A" />
+
+                                            </DataTrigger>
+                                        </Label.Triggers>
+
+                                    </Label>
+
+                                </VerticalStackLayout>
+                            </Frame>
+
+                        </Grid>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
         </Grid>
 
-
-        <!-- DIGITAÇÃO -->
-
+        <!-- CAMPO DE DIGITAÇÃO -->
         <Grid
             Grid.Row="2"
-            BackgroundColor="#102B46"
+            BackgroundColor="#151515"
             Padding="10,8"
             ColumnDefinitions="Auto,*,Auto,Auto"
             ColumnSpacing="8">
@@ -149,12 +212,12 @@
                 Text="📷"
                 FontSize="20"
                 VerticalOptions="Center"
-                TextColor="#AFC6D8" />
+                TextColor="#A99A78" />
 
             <Border
                 Grid.Column="1"
-                BackgroundColor="#1B3B59"
-                Stroke="#2A5577"
+                BackgroundColor="#202020"
+                Stroke="#8D7133"
                 StrokeThickness="1"
                 StrokeShape="RoundRectangle 22"
                 Padding="12,0"
@@ -162,12 +225,15 @@
 
                 <Entry
                     x:Name="txtMensagem"
+                    Text="{Binding MensagemDigitada}"
                     Placeholder="Digite uma mensagem..."
-                    PlaceholderColor="#8FA8BC"
-                    TextColor="White"
+                    PlaceholderColor="#A99A78"
+                    TextColor="#F5F5F5"
                     FontSize="15"
                     BackgroundColor="Transparent"
-                    VerticalOptions="Center" />
+                    VerticalOptions="Center"
+                    ReturnType="Send"
+                    ReturnCommand="{Binding EnviarMensagemCommand}" />
 
             </Border>
 
@@ -176,24 +242,22 @@
                 Text="🎤"
                 FontSize="20"
                 VerticalOptions="Center"
-                TextColor="#AFC6D8" />
+                TextColor="#A99A78" />
 
             <Button
                 Grid.Column="3"
                 Text="➤"
                 FontSize="20"
-                TextColor="White"
-                BackgroundColor="#2997D8"
+                TextColor="#17130A"
+                BackgroundColor="#C9A34A"
                 CornerRadius="23"
                 WidthRequest="45"
                 HeightRequest="45"
-                Clicked="EnviarButton_Clicked" />
+                Command="{Binding EnviarMensagemCommand}" />
 
         </Grid>
 
-
-        <!-- MENU -->
-
+        <!-- MENU INFERIOR -->
         <components:MenuNavegacao
             Grid.Row="3" />
 
