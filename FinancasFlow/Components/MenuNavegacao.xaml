@@ -4,132 +4,117 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="FinancasFlow.Components.MenuNavegacao"
-    BackgroundColor="#102B46">
+    BackgroundColor="#151515">
 
     <Grid
         Padding="10,8,10,12"
         ColumnDefinitions="*,*,*,*">
 
-        <!-- ========================= -->
         <!-- INÍCIO -->
-        <!-- ========================= -->
-
         <VerticalStackLayout
             Grid.Column="0"
             Spacing="2"
             HorizontalOptions="Center">
 
             <VerticalStackLayout.GestureRecognizers>
-
                 <TapGestureRecognizer
                     Tapped="Inicio_Tapped" />
-
             </VerticalStackLayout.GestureRecognizers>
 
-            <Label
-                Text="⌂"
-                FontSize="25"
-                TextColor="#4DB8FF"
-                HorizontalOptions="Center" />
+            <!-- Temporário: substituir pelo PNG de Início depois -->
+            <Image
+      Source="inicio.png"
+      WidthRequest="26"
+      HeightRequest="28"
+      Aspect="AspectFit"
+      HorizontalOptions="Center" />
+
 
             <Label
                 Text="Início"
                 FontSize="11"
                 FontAttributes="Bold"
-                TextColor="#4DB8FF"
+                TextColor="#D8B866"
                 HorizontalOptions="Center" />
 
         </VerticalStackLayout>
 
-
-        <!-- ========================= -->
         <!-- RESUMO -->
-        <!-- ========================= -->
-
         <VerticalStackLayout
             Grid.Column="1"
             Spacing="2"
             HorizontalOptions="Center">
 
             <VerticalStackLayout.GestureRecognizers>
-
                 <TapGestureRecognizer
                     Tapped="Resumo_Tapped" />
-
             </VerticalStackLayout.GestureRecognizers>
 
-            <Label
-                Text="▥"
-                FontSize="24"
-                TextColor="#8FA8BC"
+            <Image
+                Source="resumo.png"
+                WidthRequest="26"
+                HeightRequest="28"
+                Aspect="AspectFit"
                 HorizontalOptions="Center" />
 
             <Label
                 Text="Resumo"
                 FontSize="11"
-                TextColor="#8FA8BC"
+                TextColor="#A99A78"
                 HorizontalOptions="Center" />
 
         </VerticalStackLayout>
 
-
-        <!-- ========================= -->
         <!-- ADICIONAR -->
-        <!-- ========================= -->
-
         <VerticalStackLayout
             Grid.Column="2"
             Spacing="2"
             HorizontalOptions="Center">
 
             <VerticalStackLayout.GestureRecognizers>
-
                 <TapGestureRecognizer
                     Tapped="Adicionar_Tapped" />
-
             </VerticalStackLayout.GestureRecognizers>
 
-            <Label
-                Text="+"
-                FontSize="27"
-                TextColor="#8FA8BC"
-                HorizontalOptions="Center" />
+            <!-- Temporário: substituir pelo PNG de Adicionar depois -->
+            <Image
+      Source="adicionar.png"
+      WidthRequest="26"
+      HeightRequest="28"
+      Aspect="AspectFit"
+      HorizontalOptions="Center" />
+
 
             <Label
                 Text="Adicionar"
                 FontSize="11"
-                TextColor="#8FA8BC"
+                TextColor="#A99A78"
                 HorizontalOptions="Center" />
 
         </VerticalStackLayout>
 
-
-        <!-- ========================= -->
         <!-- PERFIL -->
-        <!-- ========================= -->
-
         <VerticalStackLayout
             Grid.Column="3"
             Spacing="2"
             HorizontalOptions="Center">
 
             <VerticalStackLayout.GestureRecognizers>
-
                 <TapGestureRecognizer
                     Tapped="Perfil_Tapped" />
-
             </VerticalStackLayout.GestureRecognizers>
 
-            <Label
-                Text="♙"
-                FontSize="25"
-                TextColor="#8FA8BC"
+            <Image
+                Source="perfil.png"
+                WidthRequest="26"
+                HeightRequest="28"
+                Aspect="AspectFit"
                 HorizontalOptions="Center" />
 
             <Label
                 Text="Perfil"
                 FontSize="11"
-                TextColor="#8FA8BC"
+                TextColor="#A99A78"
                 HorizontalOptions="Center" />
 
         </VerticalStackLayout>
