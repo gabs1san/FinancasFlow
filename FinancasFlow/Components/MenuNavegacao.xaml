@@ -21,7 +21,7 @@
                     Tapped="Inicio_Tapped" />
             </VerticalStackLayout.GestureRecognizers>
 
-            <!-- Temporário: substituir pelo PNG de Início depois -->
+            
             <Image
       Source="inicio.png"
       WidthRequest="26"
@@ -76,7 +76,7 @@
                     Tapped="Adicionar_Tapped" />
             </VerticalStackLayout.GestureRecognizers>
 
-            <!-- Temporário: substituir pelo PNG de Adicionar depois -->
+            
             <Image
       Source="adicionar.png"
       WidthRequest="26"
