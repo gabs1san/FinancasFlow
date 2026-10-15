@@ -6,7 +6,7 @@
     xmlns:components="clr-namespace:FinancasFlow.Components"
     x:Class="FinancasFlow.PerfilPage"
     Title="Perfil"
-    BackgroundColor="#0B1F33"
+    BackgroundColor="#151515"
     Shell.NavBarIsVisible="False">
 
     <Grid
