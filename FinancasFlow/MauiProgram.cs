@@ -35,6 +35,8 @@ namespace FinancasFlow
 #endif
             builder.Services.AddSingleton<BancoDadosInicializador>();
 
+            builder.Services.AddSingleton<MensagemChatService>();
+
             return builder.Build();
         }
     }
