@@ -20,12 +20,12 @@
             Padding="15,12"
             ColumnDefinitions="Auto,*,Auto">
 
-            <Label
-                Grid.Column="0"
-                Text="‹"
-                FontSize="32"
-                TextColor="#C9A34A"
-                VerticalOptions="Center" />
+            <Image
+Source="logo.png"
+WidthRequest="26"
+HeightRequest="28"
+Aspect="AspectFit"
+HorizontalOptions="Center" />
 
             <VerticalStackLayout
                 Grid.Column="1"
@@ -117,7 +117,7 @@
                                 <Frame.Triggers>
                                     <DataTrigger
                                         TargetType="Frame"
-                                        Binding="{Binding EhUsuario}"
+                                        Binding="{Binding EnviadaPeloUsuario}"
                                         Value="True">
 
                                         <Setter
@@ -144,7 +144,7 @@
                                         <HorizontalStackLayout.Triggers>
                                             <DataTrigger
                                                 TargetType="HorizontalStackLayout"
-                                                Binding="{Binding EhUsuario}"
+                                                Binding="{Binding EnviadaPeloUsuario}"
                                                 Value="True">
 
                                                 <Setter
@@ -176,7 +176,7 @@
                                         <Label.Triggers>
                                             <DataTrigger
                                                 TargetType="Label"
-                                                Binding="{Binding EhUsuario}"
+                                                Binding="{Binding EnviadaPeloUsuario}"
                                                 Value="True">
 
                                                 <Setter

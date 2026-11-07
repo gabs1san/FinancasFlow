@@ -6,37 +6,290 @@
     xmlns:components="clr-namespace:FinancasFlow.Components"
     x:Class="FinancasFlow.AdicionarPage"
     Title="Adicionar"
-    BackgroundColor="#151515"
-    Shell.NavBarIsVisible="False">
+    BackgroundColor="#080808">
 
-    <Grid
-        RowDefinitions="*,Auto">
+    <Grid RowDefinitions="Auto,*,Auto">
 
-        <ScrollView
-            Grid.Row="0">
+        <!-- CABEÇALHO -->
+        <Grid
+            Grid.Row="0"
+            BackgroundColor="#151515"
+            Padding="20,18">
 
-            <VerticalStackLayout
-                Padding="20"
-                Spacing="15">
-
+            <VerticalStackLayout Spacing="3">
                 <Label
-                    Text="Adicionar"
-                    FontSize="28"
+                    Text="Adicionar lançamento"
+                    FontSize="22"
                     FontAttributes="Bold"
-                    TextColor="White" />
+                    TextColor="#F5F5F5" />
 
                 <Label
-                    Text="Aqui você poderá adicionar entradas e gastos."
-                    FontSize="16"
-                    TextColor="#8FA8BC" />
-
+                    Text="Registre suas movimentações financeiras"
+                    FontSize="12"
+                    TextColor="#A99A78" />
             </VerticalStackLayout>
 
+        </Grid>
+
+        <!-- CONTEÚDO -->
+        <ScrollView Grid.Row="1">
+
+            <VerticalStackLayout
+                Padding="20,20,20,25"
+                Spacing="20">
+
+                <!-- TIPO DE LANÇAMENTO -->
+                <VerticalStackLayout Spacing="10">
+
+                    <Label
+                        Text="Tipo de lançamento"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        TextColor="#F5F5F5" />
+
+                    <Grid
+                        ColumnDefinitions="*,*"
+                        ColumnSpacing="12">
+
+                        <Border
+                            Grid.Column="0"
+                            BackgroundColor="#C9A34A"
+                            Stroke="#C9A34A"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="12">
+
+                            <VerticalStackLayout
+                                Spacing="5"
+                                HorizontalOptions="Center">
+
+                                <Label
+                                    Text="↓"
+                                    FontSize="25"
+                                    TextColor="#17130A"
+                                    HorizontalOptions="Center" />
+
+                                <Label
+                                    Text="Despesa"
+                                    FontSize="14"
+                                    FontAttributes="Bold"
+                                    TextColor="#17130A" />
+
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border
+                            Grid.Column="1"
+                            BackgroundColor="#151515"
+                            Stroke="#49402C"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="12">
+
+                            <VerticalStackLayout
+                                Spacing="5"
+                                HorizontalOptions="Center">
+
+                                <Label
+                                    Text="↑"
+                                    FontSize="25"
+                                    TextColor="#D8B866"
+                                    HorizontalOptions="Center" />
+
+                                <Label
+                                    Text="Entrada"
+                                    FontSize="14"
+                                    FontAttributes="Bold"
+                                    TextColor="#D8B866" />
+
+                            </VerticalStackLayout>
+                        </Border>
+
+                    </Grid>
+                </VerticalStackLayout>
+
+                <!-- VALOR -->
+                <VerticalStackLayout Spacing="9">
+
+                    <Label
+                        Text="Valor"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        TextColor="#F5F5F5" />
+
+                    <Border
+                        BackgroundColor="#151515"
+                        Stroke="#8D7133"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="15,5">
+
+                        <Grid ColumnDefinitions="Auto,*">
+
+                            <Label
+                                Text="R$"
+                                FontSize="22"
+                                FontAttributes="Bold"
+                                TextColor="#D8B866"
+                                VerticalOptions="Center" />
+
+                            <Entry
+                                Grid.Column="1"
+                                Placeholder="0,00"
+                                PlaceholderColor="#81775F"
+                                TextColor="#F5F5F5"
+                                FontSize="24"
+                                Keyboard="Numeric"
+                                BackgroundColor="Transparent" />
+
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- DESCRIÇÃO -->
+                <VerticalStackLayout Spacing="9">
+
+                    <Label
+                        Text="Descrição"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        TextColor="#F5F5F5" />
+
+                    <Border
+                        BackgroundColor="#151515"
+                        Stroke="#30291B"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="12,2">
+
+                        <Entry
+                            Placeholder="Ex.: Compra no supermercado"
+                            PlaceholderColor="#81775F"
+                            TextColor="#F5F5F5"
+                            BackgroundColor="Transparent" />
+
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- CATEGORIA -->
+                <VerticalStackLayout Spacing="9">
+
+                    <Label
+                        Text="Categoria"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        TextColor="#F5F5F5" />
+
+                    <Border
+                        BackgroundColor="#151515"
+                        Stroke="#30291B"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="14">
+
+                        <Grid ColumnDefinitions="*,Auto">
+
+                            <Label
+                                Text="Selecionar categoria"
+                                FontSize="14"
+                                TextColor="#A99A78"
+                                VerticalOptions="Center" />
+
+                            <Label
+                                Grid.Column="1"
+                                Text="⌄"
+                                FontSize="20"
+                                TextColor="#D8B866" />
+
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- FORMA DE PAGAMENTO -->
+                <VerticalStackLayout Spacing="9">
+
+                    <Label
+                        Text="Forma de pagamento"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        TextColor="#F5F5F5" />
+
+                    <Border
+                        BackgroundColor="#151515"
+                        Stroke="#30291B"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="14">
+
+                        <Grid ColumnDefinitions="*,Auto">
+
+                            <Label
+                                Text="Selecionar pagamento"
+                                FontSize="14"
+                                TextColor="#A99A78"
+                                VerticalOptions="Center" />
+
+                            <Label
+                                Grid.Column="1"
+                                Text="⌄"
+                                FontSize="20"
+                                TextColor="#D8B866" />
+
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- DATA -->
+                <VerticalStackLayout Spacing="9">
+
+                    <Label
+                        Text="Data da movimentação"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        TextColor="#F5F5F5" />
+
+                    <Border
+                        BackgroundColor="#151515"
+                        Stroke="#30291B"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="14">
+
+                        <Grid ColumnDefinitions="*,Auto">
+
+                            <Label
+                                Text="Selecionar data"
+                                FontSize="14"
+                                TextColor="#A99A78"
+                                VerticalOptions="Center" />
+
+                            <Label
+                                Grid.Column="1"
+                                Text="▦"
+                                FontSize="20"
+                                TextColor="#D8B866" />
+
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- BOTÃO VISUAL -->
+                <Button
+                    Text="Salvar lançamento"
+                    FontSize="15"
+                    FontAttributes="Bold"
+                    TextColor="#17130A"
+                    BackgroundColor="#C9A34A"
+                    CornerRadius="12"
+                    HeightRequest="52"
+                    Margin="0,8,0,0" />
+
+            </VerticalStackLayout>
         </ScrollView>
 
+        <!-- MENU INFERIOR -->
         <components:MenuNavegacao
-            Grid.Row="1" />
+            Grid.Row="2" />
 
     </Grid>
-
 </ContentPage>

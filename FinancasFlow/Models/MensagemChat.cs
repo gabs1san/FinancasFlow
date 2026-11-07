@@ -3,14 +3,25 @@ namespace FinancasFlow.Models
 {
     public class MensagemChat
     {
+        public int Id { get; set; }
+
         public string Texto { get; set; } = string.Empty;
 
-        public bool EhUsuario { get; set; }
+        public bool EnviadaPeloUsuario { get; set; }
 
-        public MensagemChat(string texto, bool ehUsuario)
+        public DateTime DataEnvio { get; set; } = DateTime.Now;
+
+        // Construtor vazio para o Entity Framework
+        public MensagemChat()
+        {
+        }
+
+        // Construtor utilizado pelo MainPageViewModel
+        public MensagemChat(string texto, bool enviadaPeloUsuario)
         {
             Texto = texto;
-            EhUsuario = ehUsuario;
+            EnviadaPeloUsuario = enviadaPeloUsuario;
+            DataEnvio = DateTime.Now;
         }
     }
 }

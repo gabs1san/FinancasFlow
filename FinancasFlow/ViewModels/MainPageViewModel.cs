@@ -21,10 +21,12 @@ namespace FinancasFlow.ViewModels
         {
             _orquestrador = orquestrador;
 
-            Mensagens.Add(
-                new MensagemChat(
-                    "Olá! 👋\n\nSou seu agente financeiro pessoal. Pode me contar seus gastos, entradas ou perguntar sobre seu saldo.",
-                    false));
+            Mensagens.Add(new MensagemChat
+            {
+                Texto = "Olá! 👋\n\nSou seu agente financeiro pessoal. Pode me contar seus gastos, entradas ou perguntar sobre seu saldo.",
+                EnviadaPeloUsuario = false,
+                DataEnvio = DateTime.Now
+            });
         }
 
         [RelayCommand]
@@ -35,16 +37,26 @@ namespace FinancasFlow.ViewModels
             if (string.IsNullOrWhiteSpace(mensagem))
                 return;
 
-            Mensagens.Add(
-                new MensagemChat(mensagem, true));
+            // Mensagem enviada pelo usuário
+            Mensagens.Add(new MensagemChat
+            {
+                Texto = mensagem,
+                EnviadaPeloUsuario = true,
+                DataEnvio = DateTime.Now
+            });
 
             MensagemDigitada = string.Empty;
 
-            string resposta =
-                _orquestrador.ProcessarMensagem(mensagem);
+            // Processa a mensagem pelo Orquestrador
+            string resposta = _orquestrador.ProcessarMensagem(mensagem);
 
-            Mensagens.Add(
-                new MensagemChat(resposta, false));
+            // Resposta do agente financeiro
+            Mensagens.Add(new MensagemChat
+            {
+                Texto = resposta,
+                EnviadaPeloUsuario = false,
+                DataEnvio = DateTime.Now
+            });
         }
     }
 }
