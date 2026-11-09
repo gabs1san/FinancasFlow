@@ -80,20 +80,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\AdicionarPage.xaml.cs">
-	    <DependentUpon>AdicionarPage.xaml</DependentUpon>
-	  </Compile>
 	  <Compile Update="Components\MenuNavegacao.xaml.cs">
 	    <DependentUpon>MenuNavegacao.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\Conteudos\MainContent.xaml.cs">
 	    <DependentUpon>MainContent.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\PerfilPage.xaml.cs">
-	    <DependentUpon>PerfilPage.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\ResumoPage.xaml.cs">
-	    <DependentUpon>ResumoPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\Conteudos\ResumoContent.xaml.cs">
 	    <DependentUpon>ResumoContent.xaml</DependentUpon>
@@ -114,15 +105,6 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\MainContainerPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\ResumoPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\AdicionarPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\PerfilPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Conteudos\ResumoContent.xaml">
