@@ -59,6 +59,7 @@ public partial class MainContainerPage : ContentPage
         await TrocarConteudoAsync(novoConteudo);
 
         _abaAtual = aba;
+        MenuInferior.AtualizarSelecao(aba);
     }
 
     private async Task TrocarConteudoAsync(View novoConteudo)

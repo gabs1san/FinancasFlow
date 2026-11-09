@@ -8,117 +8,145 @@
 
     <Grid
         Padding="10,8,10,12"
-        ColumnDefinitions="*,*,*,*">
+        ColumnDefinitions="*,*,*,*"
+        ColumnSpacing="6">
 
         <!-- INÍCIO -->
-        <VerticalStackLayout
+        <Border
+            x:Name="BordaInicio"
             Grid.Column="0"
-            Spacing="2"
-            HorizontalOptions="Center">
+            BackgroundColor="#332A1A"
+            Stroke="#8D7133"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 12"
+            Padding="6,8">
 
-            <VerticalStackLayout.GestureRecognizers>
-                <TapGestureRecognizer
-                    Tapped="Inicio_Tapped" />
-            </VerticalStackLayout.GestureRecognizers>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="Inicio_Tapped" />
+            </Border.GestureRecognizers>
 
-            
-            <Image
-      Source="inicio.png"
-      WidthRequest="26"
-      HeightRequest="28"
-      Aspect="AspectFit"
-      HorizontalOptions="Center" />
+            <VerticalStackLayout
+                Spacing="3"
+                HorizontalOptions="Center">
 
+                <Image
+                    Source="inicio.png"
+                    WidthRequest="26"
+                    HeightRequest="28"
+                    Aspect="AspectFit" />
 
-            <Label
-                Text="Início"
-                FontSize="11"
-                FontAttributes="Bold"
-                TextColor="#D8B866"
-                HorizontalOptions="Center" />
+                <Label
+                    x:Name="TextoInicio"
+                    Text="Início"
+                    FontSize="11"
+                    FontAttributes="Bold"
+                    TextColor="#D8B866"
+                    HorizontalOptions="Center" />
 
-        </VerticalStackLayout>
+            </VerticalStackLayout>
+        </Border>
 
         <!-- RESUMO -->
-        <VerticalStackLayout
+        <Border
+            x:Name="BordaResumo"
             Grid.Column="1"
-            Spacing="2"
-            HorizontalOptions="Center">
+            BackgroundColor="Transparent"
+            Stroke="Transparent"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 12"
+            Padding="6,8">
 
-            <VerticalStackLayout.GestureRecognizers>
-                <TapGestureRecognizer
-                    Tapped="Resumo_Tapped" />
-            </VerticalStackLayout.GestureRecognizers>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="Resumo_Tapped" />
+            </Border.GestureRecognizers>
 
-            <Image
-                Source="resumo.png"
-                WidthRequest="26"
-                HeightRequest="28"
-                Aspect="AspectFit"
-                HorizontalOptions="Center" />
+            <VerticalStackLayout
+                Spacing="3"
+                HorizontalOptions="Center">
 
-            <Label
-                Text="Resumo"
-                FontSize="11"
-                TextColor="#A99A78"
-                HorizontalOptions="Center" />
+                <Image
+                    Source="resumo.png"
+                    WidthRequest="26"
+                    HeightRequest="28"
+                    Aspect="AspectFit" />
 
-        </VerticalStackLayout>
+                <Label
+                    x:Name="TextoResumo"
+                    Text="Resumo"
+                    FontSize="11"
+                    TextColor="#A99A78"
+                    HorizontalOptions="Center" />
+
+            </VerticalStackLayout>
+        </Border>
 
         <!-- ADICIONAR -->
-        <VerticalStackLayout
+        <Border
+            x:Name="BordaAdicionar"
             Grid.Column="2"
-            Spacing="2"
-            HorizontalOptions="Center">
+            BackgroundColor="Transparent"
+            Stroke="Transparent"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 12"
+            Padding="6,8">
 
-            <VerticalStackLayout.GestureRecognizers>
-                <TapGestureRecognizer
-                    Tapped="Adicionar_Tapped" />
-            </VerticalStackLayout.GestureRecognizers>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="Adicionar_Tapped" />
+            </Border.GestureRecognizers>
 
-            
-            <Image
-      Source="adicionar.png"
-      WidthRequest="26"
-      HeightRequest="28"
-      Aspect="AspectFit"
-      HorizontalOptions="Center" />
+            <VerticalStackLayout
+                Spacing="3"
+                HorizontalOptions="Center">
 
+                <Image
+                    Source="adicionar.png"
+                    WidthRequest="26"
+                    HeightRequest="28"
+                    Aspect="AspectFit" />
 
-            <Label
-                Text="Adicionar"
-                FontSize="11"
-                TextColor="#A99A78"
-                HorizontalOptions="Center" />
+                <Label
+                    x:Name="TextoAdicionar"
+                    Text="Adicionar"
+                    FontSize="11"
+                    TextColor="#A99A78"
+                    HorizontalOptions="Center" />
 
-        </VerticalStackLayout>
+            </VerticalStackLayout>
+        </Border>
 
         <!-- PERFIL -->
-        <VerticalStackLayout
+        <Border
+            x:Name="BordaPerfil"
             Grid.Column="3"
-            Spacing="2"
-            HorizontalOptions="Center">
+            BackgroundColor="Transparent"
+            Stroke="Transparent"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 12"
+            Padding="6,8">
 
-            <VerticalStackLayout.GestureRecognizers>
-                <TapGestureRecognizer
-                    Tapped="Perfil_Tapped" />
-            </VerticalStackLayout.GestureRecognizers>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="Perfil_Tapped" />
+            </Border.GestureRecognizers>
 
-            <Image
-                Source="perfil.png"
-                WidthRequest="26"
-                HeightRequest="28"
-                Aspect="AspectFit"
-                HorizontalOptions="Center" />
+            <VerticalStackLayout
+                Spacing="3"
+                HorizontalOptions="Center">
 
-            <Label
-                Text="Perfil"
-                FontSize="11"
-                TextColor="#A99A78"
-                HorizontalOptions="Center" />
+                <Image
+                    Source="perfil.png"
+                    WidthRequest="26"
+                    HeightRequest="28"
+                    Aspect="AspectFit" />
 
-        </VerticalStackLayout>
+                <Label
+                    x:Name="TextoPerfil"
+                    Text="Perfil"
+                    FontSize="11"
+                    TextColor="#A99A78"
+                    HorizontalOptions="Center" />
+
+            </VerticalStackLayout>
+        </Border>
 
     </Grid>
-
 </ContentView>
