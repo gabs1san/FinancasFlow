@@ -1,4 +1,7 @@
-﻿namespace FinancasFlow
+﻿
+using FinancasFlow.Views;
+
+namespace FinancasFlow
 {
     public partial class AppShell : Shell
     {

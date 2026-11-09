@@ -80,16 +80,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="AdicionarPage.xaml.cs">
+	  <Compile Update="Views\AdicionarPage.xaml.cs">
 	    <DependentUpon>AdicionarPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Components\MenuNavegacao.xaml.cs">
 	    <DependentUpon>MenuNavegacao.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="PerfilPage.xaml.cs">
+	  <Compile Update="Views\PerfilPage.xaml.cs">
 	    <DependentUpon>PerfilPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="ResumoPage.xaml.cs">
+	  <Compile Update="Views\ResumoPage.xaml.cs">
 	    <DependentUpon>ResumoPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
@@ -98,13 +98,16 @@
 	  <MauiXaml Update="Components\MenuNavegacao.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ResumoPage.xaml">
+	  <MauiXaml Update="Views\MainContainerPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="AdicionarPage.xaml">
+	  <MauiXaml Update="Views\ResumoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="PerfilPage.xaml">
+	  <MauiXaml Update="Views\AdicionarPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\PerfilPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

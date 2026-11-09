@@ -1,40 +1,33 @@
-using FinancasFlow;
 
 namespace FinancasFlow.Components
 {
     public partial class MenuNavegacao : ContentView
     {
+        public event EventHandler<string>? AbaSelecionada;
+
         public MenuNavegacao()
         {
             InitializeComponent();
         }
 
-        private async void Inicio_Tapped(
-            object sender,
-            TappedEventArgs e)
+        private void Inicio_Tapped(object sender, TappedEventArgs e)
         {
-            await Shell.Current.GoToAsync("//MainPage");
+            AbaSelecionada?.Invoke(this, "Inicio");
         }
 
-        private async void Resumo_Tapped(
-            object sender,
-            TappedEventArgs e)
+        private void Resumo_Tapped(object sender, TappedEventArgs e)
         {
-            await Shell.Current.GoToAsync(nameof(ResumoPage));
+            AbaSelecionada?.Invoke(this, "Resumo");
         }
 
-        private async void Adicionar_Tapped(
-            object sender,
-            TappedEventArgs e)
+        private void Adicionar_Tapped(object sender, TappedEventArgs e)
         {
-            await Shell.Current.GoToAsync(nameof(AdicionarPage));
+            AbaSelecionada?.Invoke(this, "Adicionar");
         }
 
-        private async void Perfil_Tapped(
-            object sender,
-            TappedEventArgs e)
+        private void Perfil_Tapped(object sender, TappedEventArgs e)
         {
-            await Shell.Current.GoToAsync(nameof(PerfilPage));
+            AbaSelecionada?.Invoke(this, "Perfil");
         }
     }
 }
