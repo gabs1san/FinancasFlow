@@ -1,25 +1,10 @@
 ﻿
-using FinancasFlow.Views;
+namespace FinancasFlow;
 
-namespace FinancasFlow
+public partial class AppShell : Shell
 {
-    public partial class AppShell : Shell
+    public AppShell()
     {
-        public AppShell()
-        {
-            InitializeComponent();
-
-            Routing.RegisterRoute(
-                nameof(ResumoPage),
-                typeof(ResumoPage));
-
-            Routing.RegisterRoute(
-                nameof(AdicionarPage),
-                typeof(AdicionarPage));
-
-            Routing.RegisterRoute(
-                nameof(PerfilPage),
-                typeof(PerfilPage));
-        }
+        InitializeComponent();
     }
 }

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="FinancasFlow.Views.Conteudos.MainContent"
+    BackgroundColor="#080808">
+
+    <Grid
+        RowDefinitions="Auto,*,Auto"
+        Padding="0"
+        RowSpacing="0">
+
+        <!-- CABEÇALHO -->
+        <Grid
+            Grid.Row="0"
+            BackgroundColor="#151515"
+            Padding="15,12"
+            ColumnDefinitions="Auto,*,Auto">
+
+            <Image
+Source="logo.png"
+WidthRequest="26"
+HeightRequest="28"
+Aspect="AspectFit"
+HorizontalOptions="Center" />
+
+            <VerticalStackLayout
+                Grid.Column="1"
+                Spacing="0"
+                HorizontalOptions="Center">
+
+                <Label
+                    Text="Finanças Flow"
+                    FontSize="18"
+                    FontAttributes="Bold"
+                    TextColor="#F5F5F5"
+                    HorizontalOptions="Center" />
+
+                <Label
+                    Text="Agente financeiro"
+                    FontSize="11"
+                    TextColor="#B7A77F"
+                    HorizontalOptions="Center" />
+
+            </VerticalStackLayout>
+
+            <Label
+                Grid.Column="2"
+                Text="✎"
+                FontSize="22"
+                TextColor="#C9A34A"
+                VerticalOptions="Center" />
+
+        </Grid>
+
+        <!-- ÁREA DO CHAT -->
+        <Grid
+            Grid.Row="1"
+            Padding="15,15,15,0"
+            RowDefinitions="Auto,Auto,*"
+            RowSpacing="12"
+            BackgroundColor="#080808">
+
+            <Label
+                Grid.Row="0"
+                Text="Conversa"
+                FontSize="24"
+                FontAttributes="Bold"
+                TextColor="#F5F5F5" />
+
+            <Frame
+                Grid.Row="1"
+                BackgroundColor="#1A1A1A"
+                BorderColor="#30291B"
+                CornerRadius="8"
+                Padding="12,8"
+                HasShadow="False">
+
+                <Label
+                    Text="Relatório Mensal em 7 dias 🗓️"
+                    FontSize="13"
+                    TextColor="#D8B866"
+                    HorizontalOptions="Center" />
+
+            </Frame>
+
+            <!-- MENSAGENS -->
+            <CollectionView
+                x:Name="ListaMensagens"
+                Grid.Row="2"
+                ItemsSource="{Binding Mensagens}"
+                SelectionMode="None"
+                VerticalOptions="Fill">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+
+                        <!-- Ocupa toda a largura para alinhar os balões -->
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            Padding="0,4">
+
+                            <Frame
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Margin="0"
+                                Padding="12,10"
+                                CornerRadius="12"
+                                HasShadow="False"
+                                HorizontalOptions="Start"
+                                MaximumWidthRequest="320"
+                                BackgroundColor="#1A1A1A">
+
+                                <Frame.Triggers>
+                                    <DataTrigger
+                                        TargetType="Frame"
+                                        Binding="{Binding EnviadaPeloUsuario}"
+                                        Value="True">
+
+                                        <Setter
+                                            Property="HorizontalOptions"
+                                            Value="End" />
+
+                                        <Setter
+                                            Property="BackgroundColor"
+                                            Value="#C9A34A" />
+
+                                        <Setter
+                                            Property="MaximumWidthRequest"
+                                            Value="290" />
+
+                                    </DataTrigger>
+                                </Frame.Triggers>
+
+                                <VerticalStackLayout Spacing="5">
+
+                                    <!-- IDENTIFICAÇÃO DO AGENTE -->
+                                    <HorizontalStackLayout
+                                        Spacing="6">
+
+                                        <HorizontalStackLayout.Triggers>
+                                            <DataTrigger
+                                                TargetType="HorizontalStackLayout"
+                                                Binding="{Binding EnviadaPeloUsuario}"
+                                                Value="True">
+
+                                                <Setter
+                                                    Property="IsVisible"
+                                                    Value="False" />
+
+                                            </DataTrigger>
+                                        </HorizontalStackLayout.Triggers>
+
+                                        <Label
+                                            Text="🤖"
+                                            FontSize="16" />
+
+                                        <Label
+                                            Text="FinFlow Assistant"
+                                            FontSize="13"
+                                            FontAttributes="Bold"
+                                            TextColor="#D8B866"
+                                            VerticalOptions="Center" />
+
+                                    </HorizontalStackLayout>
+
+                                    <!-- TEXTO DA MENSAGEM -->
+                                    <Label
+                                        Text="{Binding Texto}"
+                                        FontSize="15"
+                                        TextColor="#F5F5F5">
+
+                                        <Label.Triggers>
+                                            <DataTrigger
+                                                TargetType="Label"
+                                                Binding="{Binding EnviadaPeloUsuario}"
+                                                Value="True">
+
+                                                <Setter
+                                                    Property="TextColor"
+                                                    Value="#17130A" />
+
+                                            </DataTrigger>
+                                        </Label.Triggers>
+
+                                    </Label>
+
+                                </VerticalStackLayout>
+                            </Frame>
+
+                        </Grid>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </Grid>
+
+        <!-- CAMPO DE DIGITAÇÃO -->
+        <Grid
+            Grid.Row="2"
+            BackgroundColor="#151515"
+            Padding="10,8"
+            ColumnDefinitions="Auto,*,Auto,Auto"
+            ColumnSpacing="8">
+
+            <Label
+                Grid.Column="0"
+                Text="📷"
+                FontSize="20"
+                VerticalOptions="Center"
+                TextColor="#A99A78" />
+
+            <Border
+                Grid.Column="1"
+                BackgroundColor="#202020"
+                Stroke="#8D7133"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 22"
+                Padding="12,0"
+                HeightRequest="45">
+
+                <Entry
+                    x:Name="txtMensagem"
+                    Text="{Binding MensagemDigitada}"
+                    Placeholder="Digite uma mensagem..."
+                    PlaceholderColor="#A99A78"
+                    TextColor="#F5F5F5"
+                    FontSize="15"
+                    BackgroundColor="Transparent"
+                    VerticalOptions="Center"
+                    ReturnType="Send"
+                    ReturnCommand="{Binding EnviarMensagemCommand}" />
+
+            </Border>
+
+            <Label
+                Grid.Column="2"
+                Text="🎤"
+                FontSize="20"
+                VerticalOptions="Center"
+                TextColor="#A99A78" />
+
+            <Button
+                Grid.Column="3"
+                Text="➤"
+                FontSize="20"
+                TextColor="#17130A"
+                BackgroundColor="#C9A34A"
+                CornerRadius="23"
+                WidthRequest="45"
+                HeightRequest="45"
+                Command="{Binding EnviarMensagemCommand}" />
+
+        </Grid>
+
+    </Grid>
+
+</ContentView>

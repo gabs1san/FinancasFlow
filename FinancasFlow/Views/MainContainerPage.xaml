@@ -11,16 +11,16 @@
     <Grid RowDefinitions="*,Auto"
           RowSpacing="0">
 
-        <!-- Área dinâmica -->
+        <!-- Somente esta região será animada -->
         <ContentView
             x:Name="ContentArea"
             Grid.Row="0"
             BackgroundColor="#080808" />
 
-        <!-- Menu inferior fixo -->
+        <!-- Menu fixo, preservando seus PNGs -->
         <components:MenuNavegacao
-    x:Name="MenuInferior"
-    Grid.Row="1" />
+            x:Name="MenuInferior"
+            Grid.Row="1" />
 
     </Grid>
 
