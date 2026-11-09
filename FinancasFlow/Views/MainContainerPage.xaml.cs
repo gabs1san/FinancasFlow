@@ -56,10 +56,12 @@ public partial class MainContainerPage : ContentPage
         if (novoConteudo is null)
             return;
 
-        await TrocarConteudoAsync(novoConteudo);
+        await Task.WhenAll(
+         TrocarConteudoAsync(novoConteudo),
+         MenuInferior.AtualizarSelecaoAsync(aba)
+);
 
         _abaAtual = aba;
-        MenuInferior.AtualizarSelecao(aba);
     }
 
     private async Task TrocarConteudoAsync(View novoConteudo)
