@@ -30,6 +30,8 @@ namespace FinancasFlow
                     options.UseSqlite($"Data Source={caminhoBanco}")
             );
 
+            builder.Services.AddScoped<TransacaoService>(); 
+
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

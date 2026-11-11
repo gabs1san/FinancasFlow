@@ -51,12 +51,19 @@
                         ColumnSpacing="12">
 
                         <Border
+                            x:Name="BordaDespesa"
                             Grid.Column="0"
                             BackgroundColor="#C9A34A"
                             Stroke="#C9A34A"
                             StrokeThickness="1"
                             StrokeShape="RoundRectangle 12"
                             Padding="12">
+                            
+                            
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Despesa_Tapped" />
+                            </Border.GestureRecognizers>
+
 
                             <VerticalStackLayout
                                 Spacing="5"
@@ -78,12 +85,17 @@
                         </Border>
 
                         <Border
+                            x:Name="BordaEntrada"
                             Grid.Column="1"
                             BackgroundColor="#151515"
                             Stroke="#49402C"
                             StrokeThickness="1"
                             StrokeShape="RoundRectangle 12"
                             Padding="12">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Entrada_Tapped" />
+                            </Border.GestureRecognizers>
 
                             <VerticalStackLayout
                                 Spacing="5"
@@ -133,6 +145,7 @@
                                 VerticalOptions="Center" />
 
                             <Entry
+                                x:Name="CampoValor"
                                 Grid.Column="1"
                                 Placeholder="0,00"
                                 PlaceholderColor="#81775F"
@@ -162,6 +175,7 @@
                         Padding="12,2">
 
                         <Entry
+                            x:Name="CampoDescricao"
                             Placeholder="Ex.: Compra no supermercado"
                             PlaceholderColor="#81775F"
                             TextColor="#F5F5F5"
@@ -186,21 +200,27 @@
                         StrokeShape="RoundRectangle 12"
                         Padding="14">
 
-                        <Grid ColumnDefinitions="*,Auto">
+                        <Picker
+    x:Name="CampoCategoria"
+    Title="Selecionar categoria"
+    TitleColor="#A99A78"
+    TextColor="#F5F5F5"
+    BackgroundColor="Transparent"
+    SelectedIndex="-1">
 
-                            <Label
-                                Text="Selecionar categoria"
-                                FontSize="14"
-                                TextColor="#A99A78"
-                                VerticalOptions="Center" />
+                            <Picker.Items>
+                                <x:String>Salário</x:String>
+                                <x:String>Freelance</x:String>
+                                <x:String>Investimentos</x:String>
+                                <x:String>Alimentação</x:String>
+                                <x:String>Transporte</x:String>
+                                <x:String>Moradia</x:String>
+                                <x:String>Saúde</x:String>
+                                <x:String>Lazer</x:String>
+                                <x:String>Outros</x:String>
+                            </Picker.Items>
 
-                            <Label
-                                Grid.Column="1"
-                                Text="⌄"
-                                FontSize="20"
-                                TextColor="#D8B866" />
-
-                        </Grid>
+                        </Picker>
                     </Border>
                 </VerticalStackLayout>
 
@@ -220,21 +240,23 @@
                         StrokeShape="RoundRectangle 12"
                         Padding="14">
 
-                        <Grid ColumnDefinitions="*,Auto">
+                        <Picker
+    x:Name="CampoPagamento"
+    Title="Selecionar pagamento"
+    TitleColor="#A99A78"
+    TextColor="#F5F5F5"
+    BackgroundColor="Transparent"
+    SelectedIndex="-1">
 
-                            <Label
-                                Text="Selecionar pagamento"
-                                FontSize="14"
-                                TextColor="#A99A78"
-                                VerticalOptions="Center" />
+                            <Picker.Items>
+                                <x:String>PIX</x:String>
+                                <x:String>Dinheiro</x:String>
+                                <x:String>Débito</x:String>
+                                <x:String>Crédito</x:String>
+                                <x:String>Transferência</x:String>
+                            </Picker.Items>
 
-                            <Label
-                                Grid.Column="1"
-                                Text="⌄"
-                                FontSize="20"
-                                TextColor="#D8B866" />
-
-                        </Grid>
+                        </Picker>
                     </Border>
                 </VerticalStackLayout>
 
@@ -254,34 +276,27 @@
                         StrokeShape="RoundRectangle 12"
                         Padding="14">
 
-                        <Grid ColumnDefinitions="*,Auto">
-
-                            <Label
-                                Text="Selecionar data"
-                                FontSize="14"
-                                TextColor="#A99A78"
-                                VerticalOptions="Center" />
-
-                            <Label
-                                Grid.Column="1"
-                                Text="▦"
-                                FontSize="20"
-                                TextColor="#D8B866" />
-
-                        </Grid>
+                        <DatePicker
+    x:Name="CampoData"
+    Format="dd/MM/yyyy"
+    TextColor="#F5F5F5"
+    BackgroundColor="Transparent"
+    HorizontalOptions="Fill" />
                     </Border>
                 </VerticalStackLayout>
 
                 <!-- BOTÃO VISUAL -->
                 <Button
-                    Text="Salvar lançamento"
-                    FontSize="15"
-                    FontAttributes="Bold"
-                    TextColor="#17130A"
-                    BackgroundColor="#C9A34A"
-                    CornerRadius="12"
-                    HeightRequest="52"
-                    Margin="0,8,0,0" />
+                     x:Name="BotaoSalvar"
+    Text="Salvar lançamento"
+    Clicked="SalvarLancamento_Clicked"
+    FontSize="15"
+    FontAttributes="Bold"
+    TextColor="#17130A"
+    BackgroundColor="#C9A34A"
+    CornerRadius="12"
+    HeightRequest="52"
+    Margin="0,8,0,0" />
 
             </VerticalStackLayout>
         </ScrollView>
