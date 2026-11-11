@@ -37,6 +37,7 @@ public partial class MainContainerPage : ContentPage
         await _mainContent.InicializarAsync();
     }
 
+
     private async void MenuInferior_AbaSelecionada(
         object? sender,
         string aba)
@@ -56,36 +57,46 @@ public partial class MainContainerPage : ContentPage
         if (novoConteudo is null)
             return;
 
-        await Task.WhenAll(
-         TrocarConteudoAsync(novoConteudo),
-         MenuInferior.AtualizarSelecaoAsync(aba)
-);
-
-        _abaAtual = aba;
-    }
-
-    private async Task TrocarConteudoAsync(View novoConteudo)
-    {
         _animando = true;
 
         try
         {
-            // Desaparece suavemente.
-            await ContentArea.FadeToAsync(0, 120);
+            if (aba == "Resumo")
+                await _resumoContent.AtualizarAsync();
 
-            // Troca apenas o conteúdo central.
-            ContentArea.Content = novoConteudo;
-            ContentArea.TranslationX = 25;
-
-            // Aparece deslizando suavemente.
             await Task.WhenAll(
-                ContentArea.FadeToAsync(1, 180),
-                ContentArea.TranslateToAsync(0, 0, 180)
+                TrocarConteudoAsync(novoConteudo),
+                MenuInferior.AtualizarSelecaoAsync(aba)
             );
+
+            _abaAtual = aba;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(ex);
+
+            await DisplayAlertAsync(
+                "Erro",
+                "Não foi possível atualizar o resumo.",
+                "OK");
         }
         finally
         {
             _animando = false;
         }
+    }
+
+
+    private async Task TrocarConteudoAsync(View novoConteudo)
+    {
+        await ContentArea.FadeToAsync(0, 120);
+
+        ContentArea.Content = novoConteudo;
+        ContentArea.TranslationX = 25;
+
+        await Task.WhenAll(
+            ContentArea.FadeToAsync(1, 120),
+            ContentArea.TranslateToAsync(0, 0, 120)
+        );
     }
 }

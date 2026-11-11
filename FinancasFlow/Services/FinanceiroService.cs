@@ -8,7 +8,7 @@ namespace FinancasFlow.Services
             List<Transacao> transacoes)
         {
             return transacoes
-                .Where(t => t.Tipo == "Entrada")
+                .Where(t => t.Tipo == "Receita")
                 .Sum(t => t.Valor);
         }
 

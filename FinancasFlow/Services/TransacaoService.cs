@@ -73,4 +73,55 @@ public class TransacaoService
             .OrderByDescending(t => t.Data)
             .ToListAsync();
     }
+
+
+    public async Task<ResumoFinanceiro> ObterResumoMensalAsync(
+        int ano, int mes)
+    {
+        var transacoes = await ListarPorMesAsync(ano, mes);
+
+        var receitas = transacoes
+            .Where(t => t.Tipo == "Receita")
+            .Sum(t => t.Valor);
+
+        var despesas = transacoes
+            .Where(t => t.Tipo == "Despesa")
+            .Sum(t => t.Valor);
+
+        var categorias = transacoes
+            .Where(t => t.Tipo == "Despesa")
+            .GroupBy(t => t.Categoria)
+            .ToDictionary(
+                grupo => grupo.Key,
+                grupo => grupo.Sum(t => t.Valor)
+            );
+
+        return new ResumoFinanceiro
+        {
+            TotalReceitas = receitas,
+            TotalDespesas = despesas,
+            DespesasPorCategoria = categorias
+        };
+    }
+
+    public async Task<List<ReceitaExtratoItem>>
+    ListarReceitasPorMesAsync(int ano, int mes)
+    {
+        var transacoes = await ListarPorMesAsync(ano, mes);
+
+        return transacoes
+            .Where(t => t.Tipo == "Receita")
+            .OrderByDescending(t => t.Data)
+            .ThenByDescending(t => t.Id)
+            .Select(t => new ReceitaExtratoItem
+            {
+                Id = t.Id,
+                Descricao = t.Descricao,
+                Categoria = t.Categoria,
+                Valor = t.Valor,
+                Data = t.Data
+            })
+            .ToList();
+    }
+
 }

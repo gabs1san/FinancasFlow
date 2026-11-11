@@ -4,25 +4,230 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="FinancasFlow.Views.Conteudos.ResumoContent"
-    BackgroundColor="#151515">
+    BackgroundColor="#080808">
 
     <ScrollView>
-        <VerticalStackLayout
-            Padding="20"
-            Spacing="15">
+        <VerticalStackLayout Padding="20" Spacing="18">
 
-            <Label
-                Text="Resumo"
-                FontSize="28"
-                FontAttributes="Bold"
-                TextColor="White" />
+            <!-- CABEÇALHO -->
+            <VerticalStackLayout Spacing="5">
+                <Label
+                    Text="Resumo financeiro"
+                    FontSize="24"
+                    FontAttributes="Bold"
+                    TextColor="#F5F5F5" />
 
-            <Label
-                Text="Aqui ficará seu resumo financeiro."
-                FontSize="16"
-                TextColor="#8FA8BC" />
+                <Label
+                    x:Name="TextoMes"
+                    FontSize="13"
+                    TextColor="#A99A78" />
+            </VerticalStackLayout>
+
+            <!-- SALDO DO MÊS -->
+            <Border
+                BackgroundColor="#1B1B1B"
+                Stroke="#8D7133"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 16"
+                Padding="20">
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Text="Saldo do mês"
+                        FontSize="14"
+                        TextColor="#A99A78" />
+
+                    <Label
+                        x:Name="TextoSaldo"
+                        Text="R$ 0,00"
+                        FontSize="30"
+                        FontAttributes="Bold"
+                        TextColor="#D8B866" />
+
+                    <Label
+                        Text="Receitas - despesas"
+                        FontSize="12"
+                        TextColor="#A99A78" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- RECEITAS E DESPESAS -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+
+                <!-- RECEITAS CLICÁVEL -->
+                <Border
+                    Grid.Column="0"
+                    BackgroundColor="#1B1B1B"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 14"
+                    Padding="15">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="Receitas_Tapped" />
+                    </Border.GestureRecognizers>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label
+                            Text="Receitas"
+                            FontSize="13"
+                            TextColor="#A99A78" />
+
+                        <Label
+                            x:Name="TextoReceitas"
+                            Text="R$ 0,00"
+                            FontSize="19"
+                            FontAttributes="Bold"
+                            TextColor="#4ADE80" />
+
+                        <Label
+                            x:Name="TextoAcaoExtrato"
+                            Text="Ver extrato"
+                            FontSize="11"
+                            TextColor="#D8B866" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- DESPESAS -->
+                <Border
+                    Grid.Column="1"
+                    BackgroundColor="#1B1B1B"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 14"
+                    Padding="15">
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label
+                            Text="Despesas"
+                            FontSize="13"
+                            TextColor="#A99A78" />
+
+                        <Label
+                            x:Name="TextoDespesas"
+                            Text="R$ 0,00"
+                            FontSize="19"
+                            FontAttributes="Bold"
+                            TextColor="#F87171" />
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <!-- EXTRATO DE RECEITAS -->
+            <Border
+                x:Name="PainelExtrato"
+                IsVisible="False"
+                BackgroundColor="#1B1B1B"
+                Stroke="#49402C"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 14"
+                Padding="16">
+
+                <VerticalStackLayout Spacing="14">
+
+                    <Label
+                        Text="Extrato de receitas"
+                        FontSize="17"
+                        FontAttributes="Bold"
+                        TextColor="#F5F5F5" />
+
+                    <CollectionView
+                        ItemsSource="{Binding ExtratoReceitas}"
+                        SelectionMode="None">
+
+                        <CollectionView.EmptyView>
+                            <Label
+                                Text="Nenhuma receita registrada neste mês."
+                                TextColor="#A99A78"
+                                FontSize="13" />
+                        </CollectionView.EmptyView>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid
+                                    ColumnDefinitions="*,Auto"
+                                    ColumnSpacing="10"
+                                    Padding="0,10">
+
+                                    <VerticalStackLayout
+                                        Grid.Column="0"
+                                        Spacing="4">
+
+                                        <Label
+                                            Text="{Binding Descricao}"
+                                            TextColor="#F5F5F5"
+                                            FontSize="14"
+                                            FontAttributes="Bold"
+                                            LineBreakMode="TailTruncation" />
+
+                                        <Label
+                                            Text="{Binding Categoria}"
+                                            TextColor="#D8B866"
+                                            FontSize="12" />
+
+                                        <Label
+                                            Text="{Binding Data, StringFormat='{0:dd/MM/yyyy}'}"
+                                            TextColor="#A99A78"
+                                            FontSize="11" />
+                                    </VerticalStackLayout>
+
+                                    <Label
+                                        Grid.Column="1"
+                                        Text="{Binding Valor, StringFormat='+ R$ {0:N2}'}"
+                                        TextColor="#4ADE80"
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        VerticalOptions="Center" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- DESPESAS POR CATEGORIA -->
+            <Border
+                BackgroundColor="#1B1B1B"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 14"
+                Padding="16">
+
+                <VerticalStackLayout Spacing="15">
+
+                    <Label
+                        Text="Despesas por categoria"
+                        FontSize="17"
+                        FontAttributes="Bold"
+                        TextColor="#F5F5F5" />
+
+                    <VerticalStackLayout
+                        x:Name="ListaCategorias"
+                        Spacing="12" />
+
+                    <BoxView
+                        HeightRequest="1"
+                        BackgroundColor="#383838" />
+
+                    <!-- TOTAL DE DESPESAS -->
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label
+                            Text="Total de despesas"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            TextColor="#F5F5F5" />
+
+                        <Label
+                            x:Name="TextoTotalDespesas"
+                            Grid.Column="1"
+                            Text="R$ 0,00"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            TextColor="#F87171" />
+                    </Grid>
+
+                </VerticalStackLayout>
+            </Border>
 
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentView>
