@@ -91,7 +91,9 @@ HorizontalOptions="Center" />
                 Grid.Row="2"
                 ItemsSource="{Binding Mensagens}"
                 SelectionMode="None"
-                VerticalOptions="Fill">
+                VerticalOptions="Fill"
+                ItemsUpdatingScrollMode="KeepLastItemInView"
+                VerticalScrollBarVisibility="Default">
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>

@@ -4,6 +4,7 @@ using FinancasFlow.Models;
 using FinancasFlow.Services;
 using FinancasFlow.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Specialized;
 
 namespace FinancasFlow.Views.Conteudos;
 
@@ -39,6 +40,10 @@ public partial class MainContent : ContentView
         );
 
         BindingContext = _viewModel;
+
+        // Observa alterações na coleção de mensagens
+        _viewModel.Mensagens.CollectionChanged +=
+            Mensagens_CollectionChanged;
     }
 
     public async Task InicializarAsync()
@@ -49,5 +54,36 @@ public partial class MainContent : ContentView
         await _viewModel.CarregarMensagensAsync();
 
         _mensagensCarregadas = true;
+
+        // Ao abrir o chat, mostra a última mensagem
+        RolarParaUltimaMensagem(false);
+    }
+
+    private void Mensagens_CollectionChanged(
+        object? sender,
+        NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action == NotifyCollectionChangedAction.Add)
+        {
+            // Executa a rolagem na thread da interface
+            Dispatcher.Dispatch(() =>
+            {
+                RolarParaUltimaMensagem(true);
+            });
+        }
+    }
+
+    private void RolarParaUltimaMensagem(bool animar)
+    {
+        if (_viewModel.Mensagens.Count == 0)
+            return;
+
+        var ultimaMensagem = _viewModel.Mensagens.Last();
+
+        ListaMensagens.ScrollTo(
+            ultimaMensagem,
+            position: ScrollToPosition.End,
+            animate: animar
+        );
     }
 }

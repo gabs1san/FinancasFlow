@@ -8,7 +8,9 @@ namespace FinancasFlow.Views.Conteudos;
 public partial class ResumoContent : ContentView
 {
     private readonly ResumoViewModel _viewModel;
+
     private bool _extratoVisivel;
+    private bool _animandoExtrato;
 
     public ResumoContent()
     {
@@ -20,7 +22,6 @@ public partial class ResumoContent : ContentView
 
         _viewModel = new ResumoViewModel(transacaoService);
 
-        // Disponibiliza os dados para o XAML
         BindingContext = _viewModel;
     }
 
@@ -33,81 +34,49 @@ public partial class ResumoContent : ContentView
         TextoReceitas.Text = _viewModel.Receitas;
         TextoDespesas.Text = _viewModel.Despesas;
 
-        // Total no rodapé da lista de categorias
         TextoTotalDespesas.Text = _viewModel.Despesas;
 
-        ListaCategorias.Children.Clear();
+        MensagemSemDespesas.IsVisible =
+            _viewModel.Categorias.Count == 0;
 
-        if (_viewModel.Categorias.Count == 0)
-        {
-            ListaCategorias.Children.Add(new Label
-            {
-                Text = "Nenhuma despesa registrada neste mês.",
-                TextColor = Color.FromArgb("#A99A78"),
-                FontSize = 13
-            });
-
-            return;
-        }
-
-        foreach (var categoria in _viewModel.Categorias)
-        {
-            var linha = new Grid
-            {
-                ColumnDefinitions =
-                {
-                    new ColumnDefinition(GridLength.Star),
-                    new ColumnDefinition(GridLength.Auto)
-                }
-            };
-
-            var nome = new Label
-            {
-                Text = categoria.Nome,
-                TextColor = Color.FromArgb("#D8B866"),
-                FontSize = 14
-            };
-
-            var valor = new Label
-            {
-                Text = categoria.Valor,
-                TextColor = Colors.White,
-                FontSize = 14,
-                FontAttributes = FontAttributes.Bold
-            };
-
-            Grid.SetColumn(nome, 0);
-            Grid.SetColumn(valor, 1);
-
-            linha.Children.Add(nome);
-            linha.Children.Add(valor);
-
-            ListaCategorias.Children.Add(linha);
-        }
+        MensagemSemReceitas.IsVisible =
+            _viewModel.ExtratoReceitas.Count == 0;
     }
 
     private async void Receitas_Tapped(
         object sender,
         TappedEventArgs e)
     {
-        _extratoVisivel = !_extratoVisivel;
+        if (_animandoExtrato)
+            return;
 
-        if (_extratoVisivel)
+        _animandoExtrato = true;
+
+        try
         {
-            PainelExtrato.IsVisible = true;
-            PainelExtrato.Opacity = 0;
+            if (!_extratoVisivel)
+            {
+                PainelExtrato.Opacity = 0;
+                PainelExtrato.IsVisible = true;
 
-            await PainelExtrato.FadeToAsync(1, 200);
+                await PainelExtrato.FadeToAsync(1, 200);
 
-            TextoAcaoExtrato.Text = "Ocultar extrato";
+                _extratoVisivel = true;
+                TextoAcaoExtrato.Text = "Ocultar extrato";
+            }
+            else
+            {
+                await PainelExtrato.FadeToAsync(0, 150);
+
+                PainelExtrato.IsVisible = false;
+
+                _extratoVisivel = false;
+                TextoAcaoExtrato.Text = "Ver extrato";
+            }
         }
-        else
+        finally
         {
-            await PainelExtrato.FadeToAsync(0, 150);
-
-            PainelExtrato.IsVisible = false;
-
-            TextoAcaoExtrato.Text = "Ver extrato";
+            _animandoExtrato = false;
         }
     }
 }
