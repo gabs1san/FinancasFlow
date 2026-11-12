@@ -1,102 +1,69 @@
 ﻿
-using System.ComponentModel;
 using System.Globalization;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using FinancasFlow.Models;
 using FinancasFlow.Services;
 
 namespace FinancasFlow.ViewModels;
 
-public class AdicionarViewModel : INotifyPropertyChanged
+public partial class AdicionarViewModel : ObservableObject
 {
     private readonly TransacaoService _transacaoService;
 
     private readonly CultureInfo _cultura =
         CultureInfo.GetCultureInfo("pt-BR");
 
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    // Evento para solicitar mensagens à interface
+    // Evento utilizado pela View para exibir alertas
     public event Func<string, string, Task>? MensagemSolicitada;
 
-    private string _tipoSelecionado = "Despesa";
-    private string _valor = string.Empty;
-    private string _descricao = string.Empty;
-    private string? _categoria;
-    private string? _formaPagamento;
-    private DateTime _data = DateTime.Today;
-    private bool _salvando;
+    [ObservableProperty]
+    private string tipoSelecionado = "Despesa";
 
-    public string TipoSelecionado
-    {
-        get => _tipoSelecionado;
-        set => DefinirPropriedade(ref _tipoSelecionado, value);
-    }
+    [ObservableProperty]
+    private string valor = string.Empty;
 
-    public string Valor
-    {
-        get => _valor;
-        set => DefinirPropriedade(ref _valor, value);
-    }
+    [ObservableProperty]
+    private string descricao = string.Empty;
 
-    public string Descricao
-    {
-        get => _descricao;
-        set => DefinirPropriedade(ref _descricao, value);
-    }
+    [ObservableProperty]
+    private string? categoria;
 
-    public string? Categoria
-    {
-        get => _categoria;
-        set => DefinirPropriedade(ref _categoria, value);
-    }
+    [ObservableProperty]
+    private string? formaPagamento;
 
-    public string? FormaPagamento
-    {
-        get => _formaPagamento;
-        set => DefinirPropriedade(ref _formaPagamento, value);
-    }
+    [ObservableProperty]
+    private DateTime data = DateTime.Today;
 
-    public DateTime Data
-    {
-        get => _data;
-        set => DefinirPropriedade(ref _data, value);
-    }
-
-    public bool Salvando
-    {
-        get => _salvando;
-        private set
-        {
-            if (DefinirPropriedade(ref _salvando, value))
-                OnPropertyChanged(nameof(PodeSalvar));
-        }
-    }
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(PodeSalvar))]
+    [NotifyCanExecuteChangedFor(nameof(SalvarTransacaoCommand))]
+    private bool salvando;
 
     public bool PodeSalvar => !Salvando;
-
-    public ICommand SalvarTransacaoCommand { get; }
 
     public AdicionarViewModel(TransacaoService transacaoService)
     {
         _transacaoService = transacaoService;
-
-        SalvarTransacaoCommand = new Command(
-            async () => await SalvarAsync(),
-            () => PodeSalvar);
     }
 
-    public async Task SalvarAsync()
+    private bool PodeExecutarSalvamento()
+    {
+        return !Salvando;
+    }
+
+    [RelayCommand(CanExecute = nameof(PodeExecutarSalvamento))]
+    private async Task SalvarTransacaoAsync()
     {
         if (Salvando)
             return;
 
+        // Validação do valor
         if (!decimal.TryParse(
                 Valor,
                 NumberStyles.Number,
                 _cultura,
-                out decimal valor) || valor <= 0)
+                out decimal valorConvertido) || valorConvertido <= 0)
         {
             await ExibirMensagemAsync(
                 "Valor inválido",
@@ -104,9 +71,11 @@ public class AdicionarViewModel : INotifyPropertyChanged
             return;
         }
 
-        string descricao = Descricao?.Trim() ?? string.Empty;
+        // Validação da descrição
+        string descricaoTratada =
+            Descricao?.Trim() ?? string.Empty;
 
-        if (string.IsNullOrWhiteSpace(descricao))
+        if (string.IsNullOrWhiteSpace(descricaoTratada))
         {
             await ExibirMensagemAsync(
                 "Descrição obrigatória",
@@ -114,6 +83,7 @@ public class AdicionarViewModel : INotifyPropertyChanged
             return;
         }
 
+        // Validação da categoria
         if (string.IsNullOrWhiteSpace(Categoria))
         {
             await ExibirMensagemAsync(
@@ -122,6 +92,7 @@ public class AdicionarViewModel : INotifyPropertyChanged
             return;
         }
 
+        // Validação do pagamento
         if (string.IsNullOrWhiteSpace(FormaPagamento))
         {
             await ExibirMensagemAsync(
@@ -134,8 +105,8 @@ public class AdicionarViewModel : INotifyPropertyChanged
         {
             Tipo = TipoSelecionado,
             Categoria = Categoria,
-            Descricao = descricao,
-            Valor = valor,
+            Descricao = descricaoTratada,
+            Valor = valorConvertido,
             FormaPagamento = FormaPagamento,
             Data = Data
         };
@@ -144,16 +115,13 @@ public class AdicionarViewModel : INotifyPropertyChanged
         {
             Salvando = true;
 
-            ((Command)SalvarTransacaoCommand)
-                .ChangeCanExecute();
-
             await _transacaoService.AdicionarAsync(transacao);
+
+            LimparFormulario();
 
             await ExibirMensagemAsync(
                 "Sucesso!",
                 "Lançamento registrado com sucesso.");
-
-            LimparFormulario();
         }
         catch (Exception ex)
         {
@@ -166,9 +134,6 @@ public class AdicionarViewModel : INotifyPropertyChanged
         finally
         {
             Salvando = false;
-
-            ((Command)SalvarTransacaoCommand)
-                .ChangeCanExecute();
         }
     }
 
@@ -177,7 +142,9 @@ public class AdicionarViewModel : INotifyPropertyChanged
         string mensagem)
     {
         if (MensagemSolicitada is not null)
+        {
             await MensagemSolicitada.Invoke(titulo, mensagem);
+        }
     }
 
     private void LimparFormulario()
@@ -188,26 +155,5 @@ public class AdicionarViewModel : INotifyPropertyChanged
         FormaPagamento = null;
         Data = DateTime.Today;
         TipoSelecionado = "Despesa";
-    }
-
-    private bool DefinirPropriedade<T>(
-        ref T campo,
-        T valor,
-        [CallerMemberName] string? nome = null)
-    {
-        if (EqualityComparer<T>.Default.Equals(campo, valor))
-            return false;
-
-        campo = valor;
-        OnPropertyChanged(nome);
-
-        return true;
-    }
-
-    private void OnPropertyChanged(string? nome)
-    {
-        PropertyChanged?.Invoke(
-            this,
-            new PropertyChangedEventArgs(nome));
     }
 }

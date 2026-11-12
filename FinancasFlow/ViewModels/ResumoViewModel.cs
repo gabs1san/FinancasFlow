@@ -1,50 +1,30 @@
 ﻿
+using System.Collections.ObjectModel;
+using System.Globalization;
+using CommunityToolkit.Mvvm.ComponentModel;
 using FinancasFlow.Models;
 using FinancasFlow.Services;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Globalization;
-using System.Runtime.CompilerServices;
 
 namespace FinancasFlow.ViewModels;
 
-public class ResumoViewModel : INotifyPropertyChanged
+public partial class ResumoViewModel : ObservableObject
 {
     private readonly TransacaoService _transacaoService;
 
     private readonly CultureInfo _cultura =
         CultureInfo.GetCultureInfo("pt-BR");
 
-    public event PropertyChangedEventHandler? PropertyChanged;
+    [ObservableProperty]
+    private string saldo = "R$ 0,00";
 
-    private string _saldo = "R$ 0,00";
-    private string _receitas = "R$ 0,00";
-    private string _despesas = "R$ 0,00";
-    private string _mesReferencia = "";
+    [ObservableProperty]
+    private string receitas = "R$ 0,00";
 
-    public string Saldo
-    {
-        get => _saldo;
-        private set => DefinirPropriedade(ref _saldo, value);
-    }
+    [ObservableProperty]
+    private string despesas = "R$ 0,00";
 
-    public string Receitas
-    {
-        get => _receitas;
-        private set => DefinirPropriedade(ref _receitas, value);
-    }
-
-    public string Despesas
-    {
-        get => _despesas;
-        private set => DefinirPropriedade(ref _despesas, value);
-    }
-
-    public string MesReferencia
-    {
-        get => _mesReferencia;
-        private set => DefinirPropriedade(ref _mesReferencia, value);
-    }
+    [ObservableProperty]
+    private string mesReferencia = string.Empty;
 
     public ObservableCollection<CategoriaResumo> Categorias
     { get; } = new();
@@ -64,7 +44,7 @@ public class ResumoViewModel : INotifyPropertyChanged
         var resumo = await _transacaoService
             .ObterResumoMensalAsync(hoje.Year, hoje.Month);
 
-        var receitas = await _transacaoService
+        var receitasDoMes = await _transacaoService
             .ListarReceitasPorMesAsync(hoje.Year, hoje.Month);
 
         Saldo = resumo.Saldo.ToString("C", _cultura);
@@ -91,27 +71,10 @@ public class ResumoViewModel : INotifyPropertyChanged
 
         ExtratoReceitas.Clear();
 
-        foreach (var receita in receitas)
+        foreach (var receita in receitasDoMes)
         {
             ExtratoReceitas.Add(receita);
         }
-    }
-
-    private bool DefinirPropriedade<T>(
-        ref T campo,
-        T valor,
-        [CallerMemberName] string? nomePropriedade = null)
-    {
-        if (EqualityComparer<T>.Default.Equals(campo, valor))
-            return false;
-
-        campo = valor;
-
-        PropertyChanged?.Invoke(
-            this,
-            new PropertyChangedEventArgs(nomePropriedade));
-
-        return true;
     }
 }
 

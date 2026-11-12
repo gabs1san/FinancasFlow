@@ -60,10 +60,13 @@ namespace FinancasFlow.ViewModels
         [RelayCommand]
         private async Task EnviarMensagemAsync()
         {
+            
+
+            if (string.IsNullOrWhiteSpace(mensagemDigitada))
+                return;
+
             string mensagem = MensagemDigitada.Trim();
 
-            if (string.IsNullOrWhiteSpace(mensagem))
-                return;
 
             MensagemDigitada = string.Empty;
 
