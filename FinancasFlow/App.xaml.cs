@@ -1,29 +1,31 @@
 ﻿
 using FinancasFlow.Services;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace FinancasFlow
+namespace FinancasFlow;
+
+public partial class App : Application
 {
-    public partial class App : Application
+    private readonly BancoDadosInicializador _bancoInicializador;
+    private readonly AppShell _appShell;
+
+    public App(
+        BancoDadosInicializador bancoInicializador,
+        AppShell appShell)
     {
-        private readonly BancoDadosInicializador _bancoInicializador;
+        InitializeComponent();
 
-        public App(BancoDadosInicializador bancoInicializador)
-        {
-            InitializeComponent();
+        _bancoInicializador = bancoInicializador;
+        _appShell = appShell;
+    }
 
-            _bancoInicializador = bancoInicializador;
-        }
+    protected override Window CreateWindow(
+        IActivationState? activationState)
+    {
+        // Inicializa o banco antes de abrir a interface
+        _bancoInicializador.InicializarAsync()
+            .GetAwaiter()
+            .GetResult();
 
-        protected override Window CreateWindow(
-            IActivationState? activationState)
-        {
-            // Inicializa o SQLite antes de abrir a interface.
-            _bancoInicializador.InicializarAsync()
-                .GetAwaiter()
-                .GetResult();
-
-            return new Window(new AppShell());
-        }
+        return new Window(_appShell);
     }
 }

@@ -2,22 +2,49 @@
 using FinancasFlow.Models;
 using FinancasFlow.Services;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 
 namespace FinancasFlow.ViewModels;
 
-public class ResumoViewModel
+public class ResumoViewModel : INotifyPropertyChanged
 {
     private readonly TransacaoService _transacaoService;
 
     private readonly CultureInfo _cultura =
         CultureInfo.GetCultureInfo("pt-BR");
 
-    public string Saldo { get; private set; } = "R$ 0,00";
-    public string Receitas { get; private set; } = "R$ 0,00";
-    public string Despesas { get; private set; } = "R$ 0,00";
+    public event PropertyChangedEventHandler? PropertyChanged;
 
-    public string MesReferencia { get; private set; } = "";
+    private string _saldo = "R$ 0,00";
+    private string _receitas = "R$ 0,00";
+    private string _despesas = "R$ 0,00";
+    private string _mesReferencia = "";
+
+    public string Saldo
+    {
+        get => _saldo;
+        private set => DefinirPropriedade(ref _saldo, value);
+    }
+
+    public string Receitas
+    {
+        get => _receitas;
+        private set => DefinirPropriedade(ref _receitas, value);
+    }
+
+    public string Despesas
+    {
+        get => _despesas;
+        private set => DefinirPropriedade(ref _despesas, value);
+    }
+
+    public string MesReferencia
+    {
+        get => _mesReferencia;
+        private set => DefinirPropriedade(ref _mesReferencia, value);
+    }
 
     public ObservableCollection<CategoriaResumo> Categorias
     { get; } = new();
@@ -43,7 +70,6 @@ public class ResumoViewModel
         Saldo = resumo.Saldo.ToString("C", _cultura);
         Receitas = resumo.TotalReceitas.ToString("C", _cultura);
         Despesas = resumo.TotalDespesas.ToString("C", _cultura);
-
         MesReferencia = hoje.ToString("MMMM yyyy", _cultura);
 
         Categorias.Clear();
@@ -70,13 +96,28 @@ public class ResumoViewModel
             ExtratoReceitas.Add(receita);
         }
     }
+
+    private bool DefinirPropriedade<T>(
+        ref T campo,
+        T valor,
+        [CallerMemberName] string? nomePropriedade = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(campo, valor))
+            return false;
+
+        campo = valor;
+
+        PropertyChanged?.Invoke(
+            this,
+            new PropertyChangedEventArgs(nomePropriedade));
+
+        return true;
+    }
 }
 
 public class CategoriaResumo
 {
     public string Nome { get; set; } = string.Empty;
-
     public string Valor { get; set; } = string.Empty;
-
     public double Percentual { get; set; }
 }

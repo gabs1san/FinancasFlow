@@ -1,45 +1,88 @@
-﻿using FinancasFlow.Data;
+﻿
+using FinancasFlow.Data;
+using FinancasFlow.Models;
+using FinancasFlow.Services;
+using FinancasFlow.ViewModels;
+using FinancasFlow.Views;
+using FinancasFlow.Views.Conteudos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using FinancasFlow.Services;
 
-namespace FinancasFlow
+namespace FinancasFlow;
+
+public static class MauiProgram
 {
-    public static class MauiProgram
+    public static MauiApp CreateMauiApp()
     {
-        public static MauiApp CreateMauiApp()
+        var builder = MauiApp.CreateBuilder();
+
+        builder
+            .UseMauiApp<App>()
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont(
+                    "OpenSans-Regular.ttf",
+                    "OpenSansRegular");
+
+                fonts.AddFont(
+                    "OpenSans-Semibold.ttf",
+                    "OpenSansSemibold");
+            });
+
+        // Banco de dados SQLite
+        string caminhoBanco = Path.Combine(
+            FileSystem.AppDataDirectory,
+            "financasflow.db3"
+        );
+
+        builder.Services.AddDbContextFactory<FinancasFlowDbContext>(
+            options =>
+                options.UseSqlite($"Data Source={caminhoBanco}")
+        );
+
+        // Serviços
+        builder.Services.AddScoped<TransacaoService>();
+        builder.Services.AddSingleton<BancoDadosInicializador>();
+        builder.Services.AddSingleton<MensagemChatService>();
+
+        // Memória financeira compartilhada
+        builder.Services.AddSingleton(provider =>
         {
-            var builder = MauiApp.CreateBuilder();
+            var memoria = new MemoriaFinanceira();
 
-            builder
-                .UseMauiApp<App>()
-                .ConfigureFonts(fonts =>
-                {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                });
+            memoria.Cartoes.Add(new CartaoDeCredito
+            {
+                Id = 1,
+                Nome = "Meu Cartão",
+                Limite = 3000,
+                DiaFechamento = 25,
+                DiaVencimento = 5
+            });
 
-            // Configuração do banco de dados SQLite
-            string caminhoBanco = Path.Combine(
-                FileSystem.AppDataDirectory,
-                "financasflow.db3"
-            );
+            return memoria;
+        });
 
-            builder.Services.AddDbContextFactory<FinancasFlowDbContext>(
-                options =>
-                    options.UseSqlite($"Data Source={caminhoBanco}")
-            );
+        // Agente financeiro
+        builder.Services.AddSingleton<Orquestrador>();
 
-            builder.Services.AddScoped<TransacaoService>(); 
+        // ViewModels
+        builder.Services.AddTransient<MainPageViewModel>();
+        builder.Services.AddTransient<ResumoViewModel>();
+
+        // views
+        builder.Services.AddTransient<MainContent>();
+        builder.Services.AddTransient<ResumoContent>();
+        builder.Services.AddTransient<AdicionarContent>();
+        builder.Services.AddTransient<PerfilContent>();
+
+        //Navegação
+        builder.Services.AddTransient<MainContainerPage>();
+        builder.Services.AddTransient<AppShell>();
 
 #if DEBUG
-            builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
-            builder.Services.AddSingleton<BancoDadosInicializador>();
 
-            builder.Services.AddSingleton<MensagemChatService>();
-
-            return builder.Build();
-        }
+        return builder.Build();
     }
 }

@@ -13,20 +13,21 @@ public partial class MainContainerPage : ContentPage
     private string _abaAtual = "Inicio";
     private bool _animando;
 
-    public MainContainerPage()
+    public MainContainerPage(
+        MainContent mainContent,
+        ResumoContent resumoContent,
+        AdicionarContent adicionarContent,
+        PerfilContent perfilContent)
     {
         InitializeComponent();
 
-        // Criamos os quatro componentes uma única vez.
-        _mainContent = new MainContent();
-        _resumoContent = new ResumoContent();
-        _adicionarContent = new AdicionarContent();
-        _perfilContent = new PerfilContent();
+        _mainContent = mainContent;
+        _resumoContent = resumoContent;
+        _adicionarContent = adicionarContent;
+        _perfilContent = perfilContent;
 
-        // Exibe o chat inicialmente.
         ContentArea.Content = _mainContent;
 
-        // Recebe os eventos do menu inferior.
         MenuInferior.AbaSelecionada += MenuInferior_AbaSelecionada;
     }
 
@@ -36,7 +37,6 @@ public partial class MainContainerPage : ContentPage
 
         await _mainContent.InicializarAsync();
     }
-
 
     private async void MenuInferior_AbaSelecionada(
         object? sender,
@@ -77,7 +77,7 @@ public partial class MainContainerPage : ContentPage
 
             await DisplayAlertAsync(
                 "Erro",
-                "Não foi possível atualizar o resumo.",
+                "Não foi possível atualizar a tela.",
                 "OK");
         }
         finally
@@ -85,7 +85,6 @@ public partial class MainContainerPage : ContentPage
             _animando = false;
         }
     }
-
 
     private async Task TrocarConteudoAsync(View novoConteudo)
     {

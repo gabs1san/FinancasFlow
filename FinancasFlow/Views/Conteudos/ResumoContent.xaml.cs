@@ -1,7 +1,6 @@
 
-using FinancasFlow.Services;
 using FinancasFlow.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
+
 
 namespace FinancasFlow.Views.Conteudos;
 
@@ -12,15 +11,11 @@ public partial class ResumoContent : ContentView
     private bool _extratoVisivel;
     private bool _animandoExtrato;
 
-    public ResumoContent()
+    public ResumoContent(ResumoViewModel viewModel)
     {
         InitializeComponent();
 
-        var transacaoService = IPlatformApplication.Current!
-            .Services
-            .GetRequiredService<TransacaoService>();
-
-        _viewModel = new ResumoViewModel(transacaoService);
+        _viewModel = viewModel;
 
         BindingContext = _viewModel;
     }
@@ -29,18 +24,11 @@ public partial class ResumoContent : ContentView
     {
         await _viewModel.CarregarAsync();
 
-        TextoMes.Text = _viewModel.MesReferencia;
-        TextoSaldo.Text = _viewModel.Saldo;
-        TextoReceitas.Text = _viewModel.Receitas;
-        TextoDespesas.Text = _viewModel.Despesas;
-
-        TextoTotalDespesas.Text = _viewModel.Despesas;
-
         MensagemSemDespesas.IsVisible =
             _viewModel.Categorias.Count == 0;
 
         MensagemSemReceitas.IsVisible =
-            _viewModel.ExtratoReceitas.Count == 0;
+            _viewModel.Categorias.Count == 0;
     }
 
     private async void Receitas_Tapped(

@@ -18,7 +18,7 @@
                     TextColor="#F5F5F5" />
 
                 <Label
-                    x:Name="TextoMes"
+                    Text="{Binding MesReferencia}"
                     FontSize="13"
                     TextColor="#A99A78" />
             </VerticalStackLayout>
@@ -39,8 +39,7 @@
                         TextColor="#A99A78" />
 
                     <Label
-                        x:Name="TextoSaldo"
-                        Text="R$ 0,00"
+                        Text="{Binding Saldo}"
                         FontSize="30"
                         FontAttributes="Bold"
                         TextColor="#D8B866" />
@@ -79,8 +78,7 @@
                             TextColor="#A99A78" />
 
                         <Label
-                            x:Name="TextoReceitas"
-                            Text="R$ 0,00"
+                            Text="{Binding Receitas}"
                             FontSize="19"
                             FontAttributes="Bold"
                             TextColor="#4ADE80" />
@@ -110,8 +108,7 @@
                             TextColor="#A99A78" />
 
                         <Label
-                            x:Name="TextoDespesas"
-                            Text="R$ 0,00"
+                            Text="{Binding Despesas}"
                             FontSize="19"
                             FontAttributes="Bold"
                             TextColor="#F87171" />
@@ -267,9 +264,8 @@
                             TextColor="#F5F5F5" />
 
                         <Label
-                            x:Name="TextoTotalDespesas"
                             Grid.Column="1"
-                            Text="R$ 0,00"
+                            Text="{Binding Despesas}"
                             FontSize="14"
                             FontAttributes="Bold"
                             TextColor="#F87171" />
