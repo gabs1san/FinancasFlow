@@ -68,6 +68,8 @@ public static class MauiProgram
         // ViewModels
         builder.Services.AddTransient<MainPageViewModel>();
         builder.Services.AddTransient<ResumoViewModel>();
+        builder.Services.AddTransient<AdicionarViewModel>();
+        builder.Services.AddTransient<AdicionarContent>();
 
         // views
         builder.Services.AddTransient<MainContent>();

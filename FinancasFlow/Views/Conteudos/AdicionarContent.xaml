@@ -58,8 +58,8 @@
                             StrokeThickness="1"
                             StrokeShape="RoundRectangle 12"
                             Padding="12">
-                            
-                            
+
+
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="Despesa_Tapped" />
                             </Border.GestureRecognizers>
@@ -146,6 +146,7 @@
 
                             <Entry
                                 x:Name="CampoValor"
+                                Text="{Binding Valor, Mode=TwoWay}"
                                 Grid.Column="1"
                                 Placeholder="0,00"
                                 PlaceholderColor="#81775F"
@@ -176,6 +177,7 @@
 
                         <Entry
                             x:Name="CampoDescricao"
+                            Text="{Binding Descricao, Mode=TwoWay}"
                             Placeholder="Ex.: Compra no supermercado"
                             PlaceholderColor="#81775F"
                             TextColor="#F5F5F5"
@@ -202,6 +204,7 @@
 
                         <Picker
     x:Name="CampoCategoria"
+    SelectedItem="{Binding Categoria, Mode=TwoWay}"
     Title="Selecionar categoria"
     TitleColor="#A99A78"
     TextColor="#F5F5F5"
@@ -242,6 +245,7 @@
 
                         <Picker
     x:Name="CampoPagamento"
+    SelectedItem="{Binding FormaPagamento, Mode=TwoWay}"
     Title="Selecionar pagamento"
     TitleColor="#A99A78"
     TextColor="#F5F5F5"
@@ -281,7 +285,8 @@
     Format="dd/MM/yyyy"
     TextColor="#F5F5F5"
     BackgroundColor="Transparent"
-    HorizontalOptions="Fill" />
+    HorizontalOptions="Fill"
+    Date="{Binding Data, Mode=TwoWay}" />
                     </Border>
                 </VerticalStackLayout>
 
@@ -289,7 +294,8 @@
                 <Button
                      x:Name="BotaoSalvar"
     Text="Salvar lançamento"
-    Clicked="SalvarLancamento_Clicked"
+    Command="{Binding SalvarTransacaoCommand}"
+    IsEnabled="{Binding PodeSalvar}"
     FontSize="15"
     FontAttributes="Bold"
     TextColor="#17130A"
@@ -301,7 +307,7 @@
             </VerticalStackLayout>
         </ScrollView>
 
-      
+
 
     </Grid>
 </ContentView>

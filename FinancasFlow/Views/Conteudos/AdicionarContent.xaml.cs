@@ -1,48 +1,53 @@
 
-using System.Globalization;
-using FinancasFlow.Models;
-using FinancasFlow.Services;
-using Microsoft.Extensions.DependencyInjection;
+using FinancasFlow.ViewModels;
 
 namespace FinancasFlow.Views.Conteudos;
 
 public partial class AdicionarContent : ContentView
 {
-    private readonly TransacaoService _transacaoService;
+    private readonly AdicionarViewModel _viewModel;
 
-    private string _tipoSelecionado = "Despesa";
-    private bool _salvando;
-
-    public AdicionarContent()
+    public AdicionarContent(AdicionarViewModel viewModel)
     {
         InitializeComponent();
 
-        _transacaoService = IPlatformApplication.Current!
-            .Services
-            .GetRequiredService<TransacaoService>();
+        _viewModel = viewModel;
 
-        CampoData.Date = DateTime.Today;
+        BindingContext = _viewModel;
+
+        _viewModel.PropertyChanged += ViewModel_PropertyChanged;
+
+        _viewModel.MensagemSolicitada += ExibirMensagemAsync;
     }
 
     private void Despesa_Tapped(
         object sender,
         TappedEventArgs e)
     {
-        SelecionarTipo("Despesa");
+        _viewModel.TipoSelecionado = "Despesa";
     }
 
     private void Entrada_Tapped(
         object sender,
         TappedEventArgs e)
     {
-        SelecionarTipo("Receita");
+        _viewModel.TipoSelecionado = "Receita";
     }
 
-    private void SelecionarTipo(string tipo)
+    private void ViewModel_PropertyChanged(
+        object? sender,
+        System.ComponentModel.PropertyChangedEventArgs e)
     {
-        _tipoSelecionado = tipo;
+        if (e.PropertyName == nameof(AdicionarViewModel.TipoSelecionado))
+        {
+            AtualizarSelecaoVisual();
+        }
+    }
 
-        bool despesaSelecionada = tipo == "Despesa";
+    private void AtualizarSelecaoVisual()
+    {
+        bool despesaSelecionada =
+            _viewModel.TipoSelecionado == "Despesa";
 
         AtualizarBorda(BordaDespesa, despesaSelecionada);
         AtualizarBorda(BordaEntrada, !despesaSelecionada);
@@ -60,92 +65,6 @@ public partial class AdicionarContent : ContentView
                 selecionada ? "#C9A34A" : "#49402C"));
     }
 
-    private async void SalvarLancamento_Clicked(
-        object sender,
-        EventArgs e)
-    {
-        if (_salvando)
-            return;
-
-        var cultura = CultureInfo.GetCultureInfo("pt-BR");
-
-        if (!decimal.TryParse(
-                CampoValor.Text,
-                NumberStyles.Number,
-                cultura,
-                out decimal valor) || valor <= 0)
-        {
-            await ExibirMensagemAsync(
-                "Valor inválido",
-                "Informe um valor maior que zero.");
-            return;
-        }
-
-        string descricao = CampoDescricao.Text?.Trim()
-            ?? string.Empty;
-
-        if (string.IsNullOrWhiteSpace(descricao))
-        {
-            await ExibirMensagemAsync(
-                "Descrição obrigatória",
-                "Informe a descrição do lançamento.");
-            return;
-        }
-
-        if (CampoCategoria.SelectedItem is not string categoria)
-        {
-            await ExibirMensagemAsync(
-                "Categoria obrigatória",
-                "Selecione uma categoria.");
-            return;
-        }
-
-        if (CampoPagamento.SelectedItem is not string pagamento)
-        {
-            await ExibirMensagemAsync(
-                "Pagamento obrigatório",
-                "Selecione a forma de pagamento.");
-            return;
-        }
-
-        var transacao = new Transacao
-        {
-            Tipo = _tipoSelecionado,
-            Categoria = categoria,
-            Descricao = descricao,
-            Valor = valor,
-            FormaPagamento = pagamento,
-            Data = CampoData.Date ?? DateTime.Today
-        };
-
-        try
-        {
-            _salvando = true;
-            BotaoSalvar.IsEnabled = false;
-
-            await _transacaoService.AdicionarAsync(transacao);
-
-            await ExibirMensagemAsync(
-                "Sucesso!",
-                "Lançamento registrado com sucesso.");
-
-            LimparFormulario();
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine(ex);
-
-            await ExibirMensagemAsync(
-                "Erro ao salvar",
-                "Não foi possível registrar o lançamento.");
-        }
-        finally
-        {
-            _salvando = false;
-            BotaoSalvar.IsEnabled = true;
-        }
-    }
-
     private static async Task ExibirMensagemAsync(
         string titulo,
         string mensagem)
@@ -153,20 +72,9 @@ public partial class AdicionarContent : ContentView
         if (Shell.Current is not null)
         {
             await Shell.Current.DisplayAlertAsync(
-                titulo, mensagem, "OK");
+                titulo,
+                mensagem,
+                "OK");
         }
-    }
-
-    private void LimparFormulario()
-    {
-        CampoValor.Text = string.Empty;
-        CampoDescricao.Text = string.Empty;
-
-        CampoCategoria.SelectedIndex = -1;
-        CampoPagamento.SelectedIndex = -1;
-
-        CampoData.Date = DateTime.Today;
-
-        SelecionarTipo("Despesa");
     }
 }
