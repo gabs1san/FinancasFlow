@@ -15,6 +15,9 @@ public partial class ResumoViewModel : ObservableObject
     private readonly CultureInfo _cultura =
         CultureInfo.GetCultureInfo("pt-BR");
 
+    private readonly CartaoService _cartaoService;
+    private readonly FinanceiroService _financeiroService = new();
+
     [ObservableProperty]
     private string saldo = "R$ 0,00";
 
@@ -26,6 +29,29 @@ public partial class ResumoViewModel : ObservableObject
 
     [ObservableProperty]
     private string mesReferencia = string.Empty;
+
+
+    [ObservableProperty]
+    private string nomeCartao = "Meu Cartão";
+
+    [ObservableProperty]
+    private string faturaCartao = "R$ 0,00";
+
+    [ObservableProperty]
+    private string limiteCartao = "R$ 0,00";
+
+    [ObservableProperty]
+    private string limiteTotalCartao = "R$ 0,00";
+
+    [ObservableProperty]
+    private double progressoCartao;
+
+    [ObservableProperty]
+    private string percentualCartao = "0% utilizado";
+
+    [ObservableProperty]
+    private bool possuiCartao;
+
 
     // Despesas por categoria
     public ObservableCollection<CategoriaResumo> Categorias
@@ -40,9 +66,11 @@ public partial class ResumoViewModel : ObservableObject
     { get; } = new();
 
     public ResumoViewModel(
-        TransacaoService transacaoService)
+        TransacaoService transacaoService,
+        CartaoService cartaoService)
     {
         _transacaoService = transacaoService;
+        _cartaoService = cartaoService;
     }
 
     public async Task CarregarAsync()
@@ -129,6 +157,57 @@ public partial class ResumoViewModel : ObservableObject
                     _ => Color.FromArgb("#A99A78")
                 }
             });
+
+
+            // CARTÃO DE CRÉDITO
+            var cartoes = await _cartaoService.ListarAsync();
+
+            PossuiCartao = cartoes.Count > 0;
+
+            if (PossuiCartao)
+            {
+                var cartao = cartoes.First();
+
+                // Usa todas as transações para manter a mesma
+                // regra que o chat utiliza atualmente.
+                var transacoes = await _transacaoService.ListarAsync();
+
+                decimal totalCompras =
+                    _financeiroService.CalcularFatura(transacoes, cartao);
+
+                decimal limiteDisponivel =
+                    _financeiroService.CalcularLimiteDisponivel(
+                        transacoes, cartao);
+
+                NomeCartao = cartao.Nome;
+
+                FaturaCartao = totalCompras.ToString("C", _cultura);
+
+                LimiteCartao = limiteDisponivel.ToString("C", _cultura);
+
+                LimiteTotalCartao = cartao.Limite.ToString("C", _cultura);
+
+                ProgressoCartao = cartao.Limite > 0
+                    ? Math.Clamp(
+                        (double)(totalCompras / cartao.Limite),
+                        0,
+                        1)
+                    : 0;
+
+                PercentualCartao = cartao.Limite > 0
+                    ? $"{(totalCompras / cartao.Limite):P1} utilizado"
+                    : "Limite não configurado";
+            }
+            else
+            {
+                NomeCartao = "Nenhum cartão cadastrado";
+                FaturaCartao = "R$ 0,00";
+                LimiteCartao = "R$ 0,00";
+                LimiteTotalCartao = "R$ 0,00";
+                ProgressoCartao = 0;
+                PercentualCartao = "Sem cartão";
+            }
+
         }
     }
 }

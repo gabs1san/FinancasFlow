@@ -84,6 +84,18 @@ public class TransacaoService
     {
         var transacoes = await ListarPorMesAsync(ano, mes);
 
+
+        foreach (var compra in comprasCredito)
+        {
+            System.Diagnostics.Debug.WriteLine(
+                $"ID: {compra.Id} | " +
+                $"Valor: {compra.Valor:C} | " +
+                $"Cartão ID: {compra.CartaoCreditoId?.ToString() ?? "SEM CARTÃO"} | " +
+                $"Descrição: {compra.Descricao}"
+            );
+        }
+
+
         // Todas as receitas
         var receitas = transacoes
             .Where(t => t.Tipo == "Receita")

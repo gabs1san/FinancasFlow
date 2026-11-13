@@ -249,82 +249,109 @@
             </Border>
 
             <!-- CARTÃO DE CRÉDITO -->
+
+            <!-- CARTÃO DE CRÉDITO -->
             <Border
-                BackgroundColor="#1B1B1B"
-                Stroke="#49402C"
-                StrokeThickness="1"
-                StrokeShape="RoundRectangle 16"
-                Padding="18">
+    BackgroundColor="#1B1B1B"
+    Stroke="#49402C"
+    StrokeThickness="1"
+    StrokeShape="RoundRectangle 16"
+    Padding="18">
 
                 <VerticalStackLayout Spacing="15">
 
+                    <!-- CABEÇALHO -->
                     <Grid ColumnDefinitions="*,Auto">
 
                         <Label
-                            Text="Meu Cartão"
-                            FontSize="17"
-                            FontAttributes="Bold"
-                            TextColor="#F5F5F5" />
+                Text="{Binding NomeCartao}"
+                FontSize="17"
+                FontAttributes="Bold"
+                TextColor="#F5F5F5" />
 
                         <Label
-                            Grid.Column="1"
-                            Text="▣"
-                            FontSize="23"
-                            TextColor="#D8B866" />
+                Grid.Column="1"
+                Text="▣"
+                FontSize="23"
+                TextColor="#D8B866" />
 
                     </Grid>
 
+                    <!-- VALORES -->
                     <Grid
-                        ColumnDefinitions="*,*"
-                        ColumnSpacing="12">
+            ColumnDefinitions="*,*"
+            ColumnSpacing="12">
 
                         <VerticalStackLayout Spacing="6">
 
                             <Label
-                                Text="Fatura em aberto"
-                                FontSize="12"
-                                TextColor="#A99A78" />
+                    Text="Compras no crédito"
+                    FontSize="12"
+                    TextColor="#A99A78" />
 
                             <Label
-                                Text="Em breve"
-                                FontSize="17"
-                                FontAttributes="Bold"
-                                TextColor="#F5F5F5" />
+                    Text="{Binding FaturaCartao}"
+                    FontSize="17"
+                    FontAttributes="Bold"
+                    TextColor="#F5F5F5" />
 
                         </VerticalStackLayout>
 
                         <VerticalStackLayout
-                            Grid.Column="1"
-                            Spacing="6">
+                Grid.Column="1"
+                Spacing="6">
 
                             <Label
-                                Text="Limite disponível"
-                                FontSize="12"
-                                TextColor="#A99A78" />
+                    Text="Limite estimado"
+                    FontSize="12"
+                    TextColor="#A99A78" />
 
                             <Label
-                                Text="Em breve"
-                                FontSize="17"
-                                FontAttributes="Bold"
-                                TextColor="#D8B866" />
+                    Text="{Binding LimiteCartao}"
+                    FontSize="17"
+                    FontAttributes="Bold"
+                    TextColor="#D8B866" />
 
                         </VerticalStackLayout>
 
                     </Grid>
 
+                    <!-- BARRA DE UTILIZAÇÃO -->
                     <ProgressBar
-                        Progress="0"
-                        ProgressColor="#D8B866"
-                        BackgroundColor="#383838"
-                        HeightRequest="8" />
+            Progress="{Binding ProgressoCartao}"
+            ProgressColor="#D8B866"
+            BackgroundColor="#383838"
+            HeightRequest="8" />
 
-                    <Label
-                        Text="Aguardando integração da fatura"
-                        FontSize="11"
-                        TextColor="#A99A78" />
+                    <!-- INFORMAÇÕES DO LIMITE -->
+                    <Grid ColumnDefinitions="*,Auto">
+
+                        <Label
+                Text="{Binding PercentualCartao}"
+                FontSize="11"
+                TextColor="#A99A78" />
+
+                        <HorizontalStackLayout
+                Grid.Column="1"
+                Spacing="4">
+
+                            <Label
+                    Text="Limite:"
+                    FontSize="11"
+                    TextColor="#A99A78" />
+
+                            <Label
+                    Text="{Binding LimiteTotalCartao}"
+                    FontSize="11"
+                    TextColor="#A99A78" />
+
+                        </HorizontalStackLayout>
+
+                    </Grid>
 
                 </VerticalStackLayout>
             </Border>
+
 
             <!-- DESPESAS POR PAGAMENTO -->
             <Border

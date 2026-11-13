@@ -4,6 +4,7 @@ namespace FinancasFlow.Services
 {
     public class FinanceiroService
     {
+
         public decimal CalcularTotalEntradas(
             List<Transacao> transacoes)
         {
