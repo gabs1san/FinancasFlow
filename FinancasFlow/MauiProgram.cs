@@ -44,6 +44,7 @@ public static class MauiProgram
         builder.Services.AddScoped<TransacaoService>();
         builder.Services.AddSingleton<BancoDadosInicializador>();
         builder.Services.AddSingleton<MensagemChatService>();
+        builder.Services.AddTransient<CartaoService>();
 
         // Agente financeiro
         builder.Services.AddTransient<Orquestrador>();

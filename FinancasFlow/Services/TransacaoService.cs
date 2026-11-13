@@ -75,21 +75,29 @@ public class TransacaoService
     }
 
 
+
     public async Task<ResumoFinanceiro> ObterResumoMensalAsync(
         int ano, int mes)
     {
         var transacoes = await ListarPorMesAsync(ano, mes);
 
+        // Todas as receitas do mês
         var receitas = transacoes
             .Where(t => t.Tipo == "Receita")
             .Sum(t => t.Valor);
 
-        var despesas = transacoes
-            .Where(t => t.Tipo == "Despesa")
+        // Apenas despesas que saíram do dinheiro disponível
+        var despesasPagas = transacoes
+            .Where(t =>
+                t.Tipo == "Despesa" &&
+                t.FormaPagamento != "Crédito")
+            .ToList();
+
+        var despesas = despesasPagas
             .Sum(t => t.Valor);
 
-        var categorias = transacoes
-            .Where(t => t.Tipo == "Despesa")
+        // Categorias das despesas efetivamente pagas
+        var categorias = despesasPagas
             .GroupBy(t => t.Categoria)
             .ToDictionary(
                 grupo => grupo.Key,
@@ -103,6 +111,7 @@ public class TransacaoService
             DespesasPorCategoria = categorias
         };
     }
+
 
     public async Task<List<ReceitaExtratoItem>>
     ListarReceitasPorMesAsync(int ano, int mes)

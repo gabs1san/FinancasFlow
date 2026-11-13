@@ -18,11 +18,16 @@ namespace FinancasFlow.Services
 
         private readonly TransacaoService _transacaoService;
 
+        private readonly CartaoService _cartaoService;
 
-        public Orquestrador(MemoriaFinanceira memoria, TransacaoService transacaoService)
+
+        public Orquestrador(MemoriaFinanceira memoria, 
+            TransacaoService transacaoService, CartaoService cartaoService)
+
         {
             _memoria = memoria;
             _transacaoService = transacaoService;
+            _cartaoService = cartaoService;
 
             _financeiroService =
                 new FinanceiroService();
@@ -65,6 +70,7 @@ namespace FinancasFlow.Services
         }
 
 
+
         private async Task<string> RegistrarDespesaAsync(string mensagem)
         {
             decimal valor = _interpretador.ExtrairValor(mensagem);
@@ -87,9 +93,18 @@ namespace FinancasFlow.Services
                 Data = DateTime.Now
             };
 
-            if (pagamento == "Crédito" && _memoria.Cartoes.Count > 0)
+            if (pagamento == "Crédito")
             {
-                transacao.CartaoCreditoId = _memoria.Cartoes.First().Id;
+                var cartoes = await _cartaoService.ListarAsync();
+
+                if (cartoes.Count == 0)
+                {
+                    return "⚠️ Nenhum cartão de crédito cadastrado.";
+                }
+
+                var cartao = cartoes.First();
+
+                transacao.CartaoCreditoId = cartao.Id;
             }
 
             await _transacaoService.AdicionarAsync(transacao);
@@ -148,14 +163,17 @@ namespace FinancasFlow.Services
         }
 
 
+
         private async Task<string> ConsultarFaturaAsync()
         {
-            if (_memoria.Cartoes.Count == 0)
+            var cartoes = await _cartaoService.ListarAsync();
+
+            if (cartoes.Count == 0)
             {
                 return "💳 Você ainda não cadastrou um cartão de crédito.";
             }
 
-            var cartao = _memoria.Cartoes.First();
+            var cartao = cartoes.First();
 
             var transacoes = await _transacaoService.ListarAsync();
 
@@ -168,6 +186,7 @@ namespace FinancasFlow.Services
                 $"Cartão: {cartao.Nome}\n\n" +
                 $"Total: R$ {fatura:N2}";
         }
+
     }
 
 }
