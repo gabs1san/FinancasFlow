@@ -199,6 +199,7 @@ HorizontalOptions="Center" />
 
         </Grid>
 
+        
         <!-- CAMPO DE DIGITAÇÃO -->
         <Grid
             Grid.Row="2"
@@ -225,7 +226,8 @@ HorizontalOptions="Center" />
 
                 <Entry
                     x:Name="txtMensagem"
-                    Text="{Binding MensagemDigitada}"
+                    Text="{Binding MensagemDigitada, Mode=TwoWay}"
+                    IsEnabled="{Binding PodeEnviarMensagem}"
                     Placeholder="Digite uma mensagem..."
                     PlaceholderColor="#A99A78"
                     TextColor="#F5F5F5"
@@ -253,7 +255,8 @@ HorizontalOptions="Center" />
                 CornerRadius="23"
                 WidthRequest="45"
                 HeightRequest="45"
-                Command="{Binding EnviarMensagemCommand}" />
+                Command="{Binding EnviarMensagemCommand}"/>
+
 
         </Grid>
 

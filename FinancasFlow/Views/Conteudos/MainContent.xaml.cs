@@ -36,8 +36,8 @@ public partial class MainContent : ContentView
     }
 
     private void Mensagens_CollectionChanged(
-        object? sender,
-        NotifyCollectionChangedEventArgs e)
+     object? sender,
+     NotifyCollectionChangedEventArgs e)
     {
         if (e.Action == NotifyCollectionChangedAction.Add)
         {

@@ -45,6 +45,9 @@ public static class MauiProgram
         builder.Services.AddSingleton<BancoDadosInicializador>();
         builder.Services.AddSingleton<MensagemChatService>();
 
+        // Agente financeiro
+        builder.Services.AddTransient<Orquestrador>();
+
         // Memória financeira compartilhada
         builder.Services.AddSingleton(provider =>
         {
@@ -62,8 +65,7 @@ public static class MauiProgram
             return memoria;
         });
 
-        // Agente financeiro
-        builder.Services.AddSingleton<Orquestrador>();
+       
 
         // ViewModels
         builder.Services.AddTransient<MainPageViewModel>();

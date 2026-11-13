@@ -16,11 +16,13 @@ namespace FinancasFlow.Services
 
         private readonly InterpretadorFinanceiroService _interpretador;
 
+        private readonly TransacaoService _transacaoService;
 
-        public Orquestrador(
-            MemoriaFinanceira memoria)
+
+        public Orquestrador(MemoriaFinanceira memoria, TransacaoService transacaoService)
         {
             _memoria = memoria;
+            _transacaoService = transacaoService;
 
             _financeiroService =
                 new FinanceiroService();
@@ -33,38 +35,25 @@ namespace FinancasFlow.Services
         }
 
 
-        public string ProcessarMensagem(
-            string mensagem)
+        public async Task<string> ProcessarMensagemAsync(string mensagem)
         {
-            string intencao =
-                _agenteService
-                    .IdentificarIntencao(mensagem);
-
+            string intencao = _agenteService.IdentificarIntencao(mensagem);
 
             switch (intencao)
             {
                 case "CONSULTAR_SALDO":
-
-                    return ConsultarSaldo();
-
+                    return await ConsultarSaldoAsync();
 
                 case "CONSULTAR_FATURA":
-
-                    return ConsultarFatura();
-
+                    return await ConsultarFaturaAsync();
 
                 case "REGISTRAR_DESPESA":
-
-                    return RegistrarDespesa(mensagem);
-
+                    return await RegistrarDespesaAsync(mensagem);
 
                 case "REGISTRAR_ENTRADA":
-
-                    return RegistrarEntrada(mensagem);
-
+                    return await RegistrarEntradaAsync(mensagem);
 
                 default:
-
                     return
                         "Não consegui entender sua mensagem 😕\n\n" +
                         "Tente algo como:\n\n" +
@@ -76,173 +65,106 @@ namespace FinancasFlow.Services
         }
 
 
-        private string RegistrarDespesa(
-            string mensagem)
+        private async Task<string> RegistrarDespesaAsync(string mensagem)
         {
-            decimal valor =
-                _interpretador.ExtrairValor(mensagem);
-
+            decimal valor = _interpretador.ExtrairValor(mensagem);
 
             if (valor <= 0)
             {
-                return
-                    "⚠️ Não consegui identificar o valor da despesa.\n\n" +
-                    "Exemplo:\n" +
-                    "'Gastei 50 reais no mercado usando PIX'";
+                return "⚠️ Não consegui identificar o valor da despesa.";
             }
 
+            string categoria = _interpretador.IdentificarCategoria(mensagem);
+            string pagamento = _interpretador.IdentificarFormaPagamento(mensagem);
 
-            string categoria =
-                _interpretador
-                    .IdentificarCategoria(mensagem);
-
-
-            string pagamento =
-                _interpretador
-                    .IdentificarFormaPagamento(mensagem);
-
-
-            Transacao transacao =
-                new Transacao
-                {
-                    Id =
-                        _memoria.Transacoes.Count + 1,
-
-                    Tipo = "Despesa",
-
-                    Valor = valor,
-
-                    Categoria = categoria,
-
-                    Descricao = mensagem,
-
-                    FormaPagamento = pagamento,
-
-                    Data = DateTime.Now
-                };
-
-
-            // Se for compra no cartão de crédito
-
-            if (pagamento == "Crédito")
+            var transacao = new Transacao
             {
-                if (_memoria.Cartoes.Count > 0)
-                {
-                    CartaoDeCredito cartao =
-                        _memoria.Cartoes.First();
+                Tipo = "Despesa",
+                Valor = valor,
+                Categoria = categoria,
+                Descricao = mensagem,
+                FormaPagamento = pagamento,
+                Data = DateTime.Now
+            };
 
-
-                    transacao.CartaoCreditoId =
-                        cartao.Id;
-                }
+            if (pagamento == "Crédito" && _memoria.Cartoes.Count > 0)
+            {
+                transacao.CartaoCreditoId = _memoria.Cartoes.First().Id;
             }
 
-
-            // Adiciona a transação
-
-            _memoria.Transacoes.Add(
-                transacao);
-
+            await _transacaoService.AdicionarAsync(transacao);
 
             return
                 $"✅ Despesa registrada!\n\n" +
-
                 $"💰 Valor: R$ {valor:N2}\n" +
-
                 $"📂 Categoria: {categoria}\n" +
-
                 $"💳 Pagamento: {pagamento}";
         }
 
 
-        private string RegistrarEntrada(
-            string mensagem)
+        private async Task<string> RegistrarEntradaAsync(string mensagem)
         {
-            decimal valor =
-                _interpretador.ExtrairValor(mensagem);
-
+            decimal valor = _interpretador.ExtrairValor(mensagem);
 
             if (valor <= 0)
             {
-                return
-                    "⚠️ Não consegui identificar o valor da entrada.";
+                return "⚠️ Não consegui identificar o valor da entrada.";
             }
 
+            string categoria = _interpretador.IdentificarCategoria(mensagem);
 
-            string categoria =
-                _interpretador
-                    .IdentificarCategoria(mensagem);
+            var transacao = new Transacao
+            {
+                Tipo = "Receita",
+                Valor = valor,
+                Categoria = categoria,
+                Descricao = mensagem,
+                FormaPagamento = "Não informado",
+                Data = DateTime.Now
+            };
 
-
-            Transacao transacao =
-                new Transacao
-                {
-                    Id =
-                        _memoria.Transacoes.Count + 1,
-
-                    Tipo = "Entrada",
-
-                    Valor = valor,
-
-                    Categoria = categoria,
-
-                    Descricao = mensagem,
-
-                    FormaPagamento = "Não informado",
-
-                    Data = DateTime.Now
-                };
-
-
-            _memoria.Transacoes.Add(
-                transacao);
-
+            await _transacaoService.AdicionarAsync(transacao);
 
             return
-                $"✅ Entrada registrada!\n\n" +
-
+                $"✅ Receita registrada!\n\n" +
                 $"💰 Valor: R$ {valor:N2}\n" +
-
                 $"📂 Categoria: {categoria}";
         }
 
 
-        private string ConsultarSaldo()
+        private async Task<string> ConsultarSaldoAsync()
         {
-            decimal saldo =
-                _financeiroService
-                    .CalcularSaldoDisponivel(
-                        _memoria.Transacoes);
+            var hoje = DateTime.Today;
 
+            var resumo = await _transacaoService.ObterResumoMensalAsync(
+                hoje.Year,
+                hoje.Month);
+
+            decimal saldo = resumo.TotalReceitas - resumo.TotalDespesas;
 
             return
-                $"💰 Seu saldo disponível é:\n\n" +
+                $"💰 Seu saldo disponível neste mês é:\n\n" +
                 $"R$ {saldo:N2}";
         }
 
 
-        private string ConsultarFatura()
+        private async Task<string> ConsultarFaturaAsync()
         {
             if (_memoria.Cartoes.Count == 0)
             {
-                return
-                    "💳 Você ainda não cadastrou um cartão de crédito.";
+                return "💳 Você ainda não cadastrou um cartão de crédito.";
             }
 
+            var cartao = _memoria.Cartoes.First();
 
-            CartaoDeCredito cartao =
-                _memoria.Cartoes.First();
+            var transacoes = await _transacaoService.ListarAsync();
 
-
-            decimal fatura =
-                _financeiroService
-                    .CalcularFatura(
-                        _memoria.Transacoes,
-                        cartao);
-
+            decimal fatura = _financeiroService.CalcularFatura(
+                transacoes,
+                cartao);
 
             return
-                $"💳 Próxima fatura\n\n" +
+                $"💳 Fatura do cartão\n\n" +
                 $"Cartão: {cartao.Nome}\n\n" +
                 $"Total: R$ {fatura:N2}";
         }

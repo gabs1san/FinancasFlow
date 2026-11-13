@@ -36,5 +36,24 @@ namespace FinancasFlow.Services
                 .ThenBy(m => m.Id)
                 .ToListAsync();
         }
+
+        public async Task<int> RemoverMensagensProcessamentoAsync()
+        {
+            await using var context =
+                await _contextFactory.CreateDbContextAsync();
+
+            var mensagens = await context.MensagensChat
+                .Where(m => m.Texto == "⏳ Processando sua mensagem...")
+                .ToListAsync();
+
+            if (mensagens.Count == 0)
+                return 0;
+
+            context.MensagensChat.RemoveRange(mensagens);
+
+            await context.SaveChangesAsync();
+
+            return mensagens.Count;
+        }
     }
 }
