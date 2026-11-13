@@ -26,4 +26,7 @@ public class ResumoFinanceiro
 
     public Dictionary<string, decimal> DespesasPorCategoria
     { get; set; } = new();
+
+    public Dictionary<string, decimal> DespesasPorPagamento
+    { get; set; } = new();
 }

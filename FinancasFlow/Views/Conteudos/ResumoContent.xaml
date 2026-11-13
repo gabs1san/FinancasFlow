@@ -10,33 +10,56 @@
         <VerticalStackLayout Padding="20" Spacing="18">
 
             <!-- CABEÇALHO -->
-            <VerticalStackLayout Spacing="5">
-                <Label
-                    Text="Resumo financeiro"
-                    FontSize="24"
-                    FontAttributes="Bold"
-                    TextColor="#F5F5F5" />
+            <Grid ColumnDefinitions="*,Auto">
 
-                <Label
-                    Text="{Binding MesReferencia}"
-                    FontSize="13"
-                    TextColor="#A99A78" />
-            </VerticalStackLayout>
-
-            <!-- SALDO -->
-            <Border
-                BackgroundColor="#1B1B1B"
-                Stroke="#8D7133"
-                StrokeThickness="1"
-                StrokeShape="RoundRectangle 16"
-                Padding="20">
-
-                <VerticalStackLayout Spacing="8">
+                <VerticalStackLayout Spacing="5">
 
                     <Label
-                        Text="Saldo do mês"
-                        FontSize="14"
+                        Text="Resumo financeiro"
+                        FontSize="24"
+                        FontAttributes="Bold"
+                        TextColor="#F5F5F5" />
+
+                    <Label
+                        Text="{Binding MesReferencia}"
+                        FontSize="13"
                         TextColor="#A99A78" />
+
+                </VerticalStackLayout>
+
+                <Label
+                    Grid.Column="1"
+                    Text="◉"
+                    FontSize="27"
+                    TextColor="#D8B866"
+                    VerticalOptions="Center" />
+
+            </Grid>
+
+            <!-- SALDO DISPONÍVEL -->
+            <Border
+                BackgroundColor="#211E18"
+                Stroke="#8D7133"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 18"
+                Padding="20">
+
+                <VerticalStackLayout Spacing="12">
+
+                    <Grid ColumnDefinitions="*,Auto">
+
+                        <Label
+                            Text="Saldo disponível"
+                            FontSize="14"
+                            TextColor="#C8B58D" />
+
+                        <Label
+                            Grid.Column="1"
+                            Text="◈"
+                            FontSize="20"
+                            TextColor="#D8B866" />
+
+                    </Grid>
 
                     <Label
                         Text="{Binding Saldo}"
@@ -45,7 +68,7 @@
                         TextColor="#D8B866" />
 
                     <Label
-                        Text="Receitas - despesas"
+                        Text="Receitas − despesas pagas"
                         FontSize="12"
                         TextColor="#A99A78" />
 
@@ -62,7 +85,7 @@
                     Grid.Column="0"
                     BackgroundColor="#1B1B1B"
                     StrokeThickness="0"
-                    StrokeShape="RoundRectangle 14"
+                    StrokeShape="RoundRectangle 16"
                     Padding="15">
 
                     <Border.GestureRecognizers>
@@ -70,18 +93,29 @@
                             Tapped="Receitas_Tapped" />
                     </Border.GestureRecognizers>
 
-                    <VerticalStackLayout Spacing="8">
+                    <VerticalStackLayout Spacing="9">
 
-                        <Label
-                            Text="Receitas"
-                            FontSize="13"
-                            TextColor="#A99A78" />
+                        <Grid ColumnDefinitions="*,Auto">
+
+                            <Label
+                                Text="Receitas"
+                                FontSize="13"
+                                TextColor="#A99A78" />
+
+                            <Label
+                                Grid.Column="1"
+                                Text="↗"
+                                FontSize="18"
+                                TextColor="#4ADE80" />
+
+                        </Grid>
 
                         <Label
                             Text="{Binding Receitas}"
                             FontSize="19"
                             FontAttributes="Bold"
-                            TextColor="#4ADE80" />
+                            TextColor="#4ADE80"
+                            LineBreakMode="TailTruncation" />
 
                         <Label
                             x:Name="TextoAcaoExtrato"
@@ -97,21 +131,37 @@
                     Grid.Column="1"
                     BackgroundColor="#1B1B1B"
                     StrokeThickness="0"
-                    StrokeShape="RoundRectangle 14"
+                    StrokeShape="RoundRectangle 16"
                     Padding="15">
 
-                    <VerticalStackLayout Spacing="8">
+                    <VerticalStackLayout Spacing="9">
 
-                        <Label
-                            Text="Despesas"
-                            FontSize="13"
-                            TextColor="#A99A78" />
+                        <Grid ColumnDefinitions="*,Auto">
+
+                            <Label
+                                Text="Despesas"
+                                FontSize="13"
+                                TextColor="#A99A78" />
+
+                            <Label
+                                Grid.Column="1"
+                                Text="↘"
+                                FontSize="18"
+                                TextColor="#F87171" />
+
+                        </Grid>
 
                         <Label
                             Text="{Binding Despesas}"
                             FontSize="19"
                             FontAttributes="Bold"
-                            TextColor="#F87171" />
+                            TextColor="#F87171"
+                            LineBreakMode="TailTruncation" />
+
+                        <Label
+                            Text="Pagas no mês"
+                            FontSize="11"
+                            TextColor="#A99A78" />
 
                     </VerticalStackLayout>
                 </Border>
@@ -125,7 +175,7 @@
                 BackgroundColor="#1B1B1B"
                 Stroke="#49402C"
                 StrokeThickness="1"
-                StrokeShape="RoundRectangle 14"
+                StrokeShape="RoundRectangle 16"
                 Padding="16">
 
                 <VerticalStackLayout Spacing="14">
@@ -172,7 +222,8 @@
                                             FontSize="12" />
 
                                         <Label
-                                            Text="{Binding Data, StringFormat='{0:dd/MM/yyyy}'}"
+                                            Text="{Binding Data,
+                                                StringFormat='{0:dd/MM/yyyy}'}"
                                             TextColor="#A99A78"
                                             FontSize="11" />
 
@@ -180,7 +231,8 @@
 
                                     <Label
                                         Grid.Column="1"
-                                        Text="{Binding Valor, StringFormat='+ R$ {0:N2}'}"
+                                        Text="{Binding Valor,
+                                            StringFormat='+ R$ {0:N2}'}"
                                         TextColor="#4ADE80"
                                         FontSize="14"
                                         FontAttributes="Bold"
@@ -196,11 +248,146 @@
                 </VerticalStackLayout>
             </Border>
 
+            <!-- CARTÃO DE CRÉDITO -->
+            <Border
+                BackgroundColor="#1B1B1B"
+                Stroke="#49402C"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 16"
+                Padding="18">
+
+                <VerticalStackLayout Spacing="15">
+
+                    <Grid ColumnDefinitions="*,Auto">
+
+                        <Label
+                            Text="Meu Cartão"
+                            FontSize="17"
+                            FontAttributes="Bold"
+                            TextColor="#F5F5F5" />
+
+                        <Label
+                            Grid.Column="1"
+                            Text="▣"
+                            FontSize="23"
+                            TextColor="#D8B866" />
+
+                    </Grid>
+
+                    <Grid
+                        ColumnDefinitions="*,*"
+                        ColumnSpacing="12">
+
+                        <VerticalStackLayout Spacing="6">
+
+                            <Label
+                                Text="Fatura em aberto"
+                                FontSize="12"
+                                TextColor="#A99A78" />
+
+                            <Label
+                                Text="Em breve"
+                                FontSize="17"
+                                FontAttributes="Bold"
+                                TextColor="#F5F5F5" />
+
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout
+                            Grid.Column="1"
+                            Spacing="6">
+
+                            <Label
+                                Text="Limite disponível"
+                                FontSize="12"
+                                TextColor="#A99A78" />
+
+                            <Label
+                                Text="Em breve"
+                                FontSize="17"
+                                FontAttributes="Bold"
+                                TextColor="#D8B866" />
+
+                        </VerticalStackLayout>
+
+                    </Grid>
+
+                    <ProgressBar
+                        Progress="0"
+                        ProgressColor="#D8B866"
+                        BackgroundColor="#383838"
+                        HeightRequest="8" />
+
+                    <Label
+                        Text="Aguardando integração da fatura"
+                        FontSize="11"
+                        TextColor="#A99A78" />
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- DESPESAS POR PAGAMENTO -->
+            <Border
+                BackgroundColor="#1B1B1B"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 16"
+                Padding="16">
+
+                <VerticalStackLayout Spacing="15">
+
+                    <Label
+                        Text="Despesas por pagamento"
+                        FontSize="17"
+                        FontAttributes="Bold"
+                        TextColor="#F5F5F5" />
+
+                    <VerticalStackLayout
+                        Spacing="18"
+                        BindableLayout.ItemsSource="{Binding Pagamentos}">
+
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+
+                                <VerticalStackLayout Spacing="8">
+
+                                    <Grid ColumnDefinitions="*,Auto">
+
+                                        <Label
+                                            Grid.Column="0"
+                                            Text="{Binding Nome}"
+                                            FontSize="14"
+                                            TextColor="#F5F5F5" />
+
+                                        <Label
+                                            Grid.Column="1"
+                                            Text="{Binding Valor}"
+                                            FontSize="14"
+                                            FontAttributes="Bold"
+                                            TextColor="#F5F5F5" />
+
+                                    </Grid>
+
+                                    <ProgressBar
+                                        Progress="{Binding Progresso}"
+                                        ProgressColor="{Binding Cor}"
+                                        BackgroundColor="#383838"
+                                        HeightRequest="8" />
+
+                                </VerticalStackLayout>
+
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+            </Border>
+
             <!-- DESPESAS POR CATEGORIA -->
             <Border
                 BackgroundColor="#1B1B1B"
                 StrokeThickness="0"
-                StrokeShape="RoundRectangle 14"
+                StrokeShape="RoundRectangle 16"
                 Padding="16">
 
                 <VerticalStackLayout Spacing="15">
@@ -254,7 +441,6 @@
                         HeightRequest="1"
                         BackgroundColor="#383838" />
 
-                    <!-- TOTAL -->
                     <Grid ColumnDefinitions="*,Auto">
 
                         <Label
@@ -277,5 +463,4 @@
 
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentView>

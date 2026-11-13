@@ -57,9 +57,10 @@ public class TransacaoService
             .ToListAsync();
     }
 
-    // Consultar as transações de um mês
+    // Consultar transações de um mês
     public async Task<List<Transacao>> ListarPorMesAsync(
-        int ano, int mes)
+        int ano,
+        int mes)
     {
         var inicio = new DateTime(ano, mes, 1);
         var fim = inicio.AddMonths(1);
@@ -69,24 +70,26 @@ public class TransacaoService
 
         return await context.Transacoes
             .AsNoTracking()
-            .Where(t => t.Data >= inicio && t.Data < fim)
+            .Where(t =>
+                t.Data >= inicio &&
+                t.Data < fim)
             .OrderByDescending(t => t.Data)
             .ToListAsync();
     }
 
-
-
+    // Calcular resumo mensal
     public async Task<ResumoFinanceiro> ObterResumoMensalAsync(
-        int ano, int mes)
+        int ano,
+        int mes)
     {
         var transacoes = await ListarPorMesAsync(ano, mes);
 
-        // Todas as receitas do mês
+        // Todas as receitas
         var receitas = transacoes
             .Where(t => t.Tipo == "Receita")
             .Sum(t => t.Valor);
 
-        // Apenas despesas que saíram do dinheiro disponível
+        // Despesas que realmente reduziram o dinheiro
         var despesasPagas = transacoes
             .Where(t =>
                 t.Tipo == "Despesa" &&
@@ -96,9 +99,18 @@ public class TransacaoService
         var despesas = despesasPagas
             .Sum(t => t.Valor);
 
-        // Categorias das despesas efetivamente pagas
+        // Despesas pagas por categoria
         var categorias = despesasPagas
             .GroupBy(t => t.Categoria)
+            .ToDictionary(
+                grupo => grupo.Key,
+                grupo => grupo.Sum(t => t.Valor)
+            );
+
+        // Todas as compras, incluindo crédito
+        var despesasPorPagamento = transacoes
+            .Where(t => t.Tipo == "Despesa")
+            .GroupBy(t => t.FormaPagamento)
             .ToDictionary(
                 grupo => grupo.Key,
                 grupo => grupo.Sum(t => t.Valor)
@@ -108,13 +120,14 @@ public class TransacaoService
         {
             TotalReceitas = receitas,
             TotalDespesas = despesas,
-            DespesasPorCategoria = categorias
+            DespesasPorCategoria = categorias,
+            DespesasPorPagamento = despesasPorPagamento
         };
     }
 
-
+    // Extrato de receitas do mês
     public async Task<List<ReceitaExtratoItem>>
-    ListarReceitasPorMesAsync(int ano, int mes)
+        ListarReceitasPorMesAsync(int ano, int mes)
     {
         var transacoes = await ListarPorMesAsync(ano, mes);
 
@@ -132,5 +145,4 @@ public class TransacaoService
             })
             .ToList();
     }
-
 }

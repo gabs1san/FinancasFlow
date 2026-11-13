@@ -1,7 +1,6 @@
 
 using FinancasFlow.ViewModels;
 
-
 namespace FinancasFlow.Views.Conteudos;
 
 public partial class ResumoContent : ContentView
@@ -28,7 +27,7 @@ public partial class ResumoContent : ContentView
             _viewModel.Categorias.Count == 0;
 
         MensagemSemReceitas.IsVisible =
-            _viewModel.Categorias.Count == 0;
+            _viewModel.ExtratoReceitas.Count == 0;
     }
 
     private async void Receitas_Tapped(
@@ -50,6 +49,7 @@ public partial class ResumoContent : ContentView
                 await PainelExtrato.FadeToAsync(1, 200);
 
                 _extratoVisivel = true;
+
                 TextoAcaoExtrato.Text = "Ocultar extrato";
             }
             else
@@ -59,6 +59,7 @@ public partial class ResumoContent : ContentView
                 PainelExtrato.IsVisible = false;
 
                 _extratoVisivel = false;
+
                 TextoAcaoExtrato.Text = "Ver extrato";
             }
         }

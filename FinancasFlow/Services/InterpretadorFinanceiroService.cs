@@ -5,42 +5,16 @@ namespace FinancasFlow.Services
 {
     public class InterpretadorFinanceiroService
     {
-        public decimal ExtrairValor(
-            string mensagem)
+
+        public string IdentificarCategoria(string mensagem)
         {
-            Match match =
-                Regex.Match(
-                    mensagem,
-                    @"\d+([.,]\d+)?");
+            if (string.IsNullOrWhiteSpace(mensagem))
+                return "Outros";
 
-
-            if (!match.Success)
-            {
-                return 0;
-            }
-
-
-            string valor =
-                match.Value
-                    .Replace(",", ".");
-
-
-            return decimal.Parse(
-                valor,
-                CultureInfo.InvariantCulture);
-        }
-
-
-        public string IdentificarCategoria(
-            string mensagem)
-        {
-            mensagem = mensagem.ToLower();
-
+            mensagem = mensagem.ToLowerInvariant();
 
             // ALIMENTAÇÃO
-
-            if (
-                mensagem.Contains("mercado") ||
+            if (mensagem.Contains("mercado") ||
                 mensagem.Contains("supermercado") ||
                 mensagem.Contains("restaurante") ||
                 mensagem.Contains("lanche") ||
@@ -49,11 +23,8 @@ namespace FinancasFlow.Services
                 return "Alimentação";
             }
 
-
             // TRANSPORTE
-
-            if (
-                mensagem.Contains("uber") ||
+            if (mensagem.Contains("uber") ||
                 mensagem.Contains("99") ||
                 mensagem.Contains("ônibus") ||
                 mensagem.Contains("onibus") ||
@@ -64,11 +35,8 @@ namespace FinancasFlow.Services
                 return "Transporte";
             }
 
-
             // ENTRETENIMENTO
-
-            if (
-                mensagem.Contains("netflix") ||
+            if (mensagem.Contains("netflix") ||
                 mensagem.Contains("spotify") ||
                 mensagem.Contains("cinema") ||
                 mensagem.Contains("jogo"))
@@ -76,21 +44,15 @@ namespace FinancasFlow.Services
                 return "Entretenimento";
             }
 
-
             // SALÁRIO
-
-            if (
-                mensagem.Contains("salário") ||
+            if (mensagem.Contains("salário") ||
                 mensagem.Contains("salario"))
             {
                 return "Salário";
             }
 
-
             // MORADIA
-
-            if (
-                mensagem.Contains("aluguel") ||
+            if (mensagem.Contains("aluguel") ||
                 mensagem.Contains("luz") ||
                 mensagem.Contains("água") ||
                 mensagem.Contains("agua"))
@@ -98,46 +60,70 @@ namespace FinancasFlow.Services
                 return "Moradia";
             }
 
-
             return "Outros";
         }
 
-
-        public string IdentificarFormaPagamento(
-            string mensagem)
+        public decimal ExtrairValor(string mensagem)
         {
-            mensagem = mensagem.ToLower();
+            if (string.IsNullOrWhiteSpace(mensagem))
+                return 0;
 
+            var match = Regex.Match(
+                mensagem,
+                @"(?<!\d)\d{1,3}(?:\.\d{3})+(?:,\d{1,2})?(?!\d)|(?<!\d)\d+(?:[.,]\d{1,2})?(?!\d)"
+            );
 
-            if (mensagem.Contains("pix"))
+            if (!match.Success)
+                return 0;
+
+            string valor = match.Value;
+
+            // Formato brasileiro com separador de milhar
+            if (valor.Contains('.') && valor.Contains(','))
             {
+                valor = valor.Replace(".", "").Replace(",", ".");
+            }
+            else if (valor.Contains(','))
+            {
+                valor = valor.Replace(",", ".");
+            }
+            else if (Regex.IsMatch(valor, @"^\d{1,3}(?:\.\d{3})+$"))
+            {
+                valor = valor.Replace(".", "");
+            }
+
+            return decimal.TryParse(
+                valor,
+                NumberStyles.AllowDecimalPoint,
+                CultureInfo.InvariantCulture,
+                out decimal resultado)
+                ? resultado
+                : 0;
+        }
+
+
+
+        public string IdentificarFormaPagamento(string mensagem)
+        {
+            if (string.IsNullOrWhiteSpace(mensagem))
+                return "Não informado";
+
+            mensagem = mensagem.ToLowerInvariant();
+
+            if (Regex.IsMatch(mensagem, @"\bpix\b"))
                 return "PIX";
-            }
 
-
-            if (mensagem.Contains("dinheiro"))
-            {
-                return "Dinheiro";
-            }
-
-
-            if (
-                mensagem.Contains("débito") ||
-                mensagem.Contains("debito"))
-            {
-                return "Débito";
-            }
-
-
-            if (
-                mensagem.Contains("crédito") ||
-                mensagem.Contains("credito"))
-            {
+            if (Regex.IsMatch(mensagem, @"\b(crédito|credito)\b"))
                 return "Crédito";
-            }
 
+            if (Regex.IsMatch(mensagem, @"\b(débito|debito)\b"))
+                return "Débito";
+
+            if (Regex.IsMatch(mensagem, @"\bdinheiro\b"))
+                return "Dinheiro";
 
             return "Não informado";
         }
+
     }
 }
