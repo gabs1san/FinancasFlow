@@ -84,6 +84,12 @@ public class TransacaoService
     {
         var transacoes = await ListarPorMesAsync(ano, mes);
 
+        
+        var comprasCredito = transacoes
+            .Where(t =>
+                t.Tipo == "Despesa" &&
+                t.FormaPagamento == "Crédito")
+            .ToList();
 
         foreach (var compra in comprasCredito)
         {
